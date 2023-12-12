@@ -1,7 +1,12 @@
 module.exports = {
-  extends: ['airbnb', 'prettier'],
+  settings: {
+    'import/resolver': {
+      'babel-module': {},
+    },
+  },
+  extends: ['react-app', 'airbnb', 'prettier'],
   parserOptions: {
-    ecmaVersion: 2021, // or the ECMAScript version you are using
+    ecmaVersion: 2021,
     sourceType: 'module',
     ecmaFeatures: {
       jsx: true,
@@ -9,6 +14,7 @@ module.exports = {
   },
   rules: {
     'prettier/prettier': 'error',
+    // Other rules...
   },
   plugins: ['prettier'],
 }

@@ -1,0 +1,23 @@
+{
+  "compilerOptions": {
+    "baseUrl": "./src",
+    "paths": {
+      "constants/*": ["./constants/*"],
+      "utils/*": ["./utils/*"],
+      "containers/*": ["./containers/*"],
+      "components/*": ["./components/*"],
+      "store/*": ["./store/*"],
+      "assets/*": ["./assets/*"]
+    },
+    "target": "esnext",
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "jsx": "react",
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true
+  },
+  "include": ["src/**/*.js", "src/**/*.jsx"],
+  "exclude": ["node_modules"]
+}

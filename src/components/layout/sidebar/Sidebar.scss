@@ -1,0 +1,178 @@
+@import '../../../assets/variable.scss';
+
+.sidebar-main {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  background-color: $white-color;
+  width: 270px;
+  padding: 0 30px 16px 0px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  &::-webkit-scrollbar {
+    width: 1px;
+    background-color: $black-color40;
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: $action-primary;
+    width: 1px;
+  }
+  &::-webkit-scrollbar-track {
+    width: 1px;
+  }
+  .logo-menu-otr {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 0;
+  }
+  .logo-otr {
+    margin-left: 20px;
+    .logo {
+      width: 50px;
+      height: 50px;
+      object-fit: contain;
+    }
+  }
+  .menu-icon-otr {
+    cursor: pointer;
+    .menu-icon {
+      font-size: 24px;
+      color: $black-color40;
+    }
+  }
+  .accordion {
+    border: none;
+    .accordion-item {
+      border-radius: 0;
+      border: none;
+      background-color: transparent;
+      &:not(:last-child) {
+        margin-bottom: 8px;
+      }
+    }
+    .active .menu-linkk {
+      background-color: $action-primary;
+      color: #0a0a0a;
+    }
+  }
+  .menu-linkk {
+    display: flex;
+    align-items: center;
+    background-color: transparent;
+    color: $black-color65;
+    padding: 12px 30px 12px 15px;
+    // border-radius: 8px;
+    gap: 0 12px;
+    transition: 0.3s;
+    cursor: pointer;
+
+    &:hover {
+      background-color: $action-primary;
+      color: #0a0a0a;
+    }
+    span {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-line-clamp: 1;
+      -webkit-box-orient: vertical;
+    }
+  }
+  .accordion-header {
+    .accordion-button {
+      display: flex;
+      align-items: center;
+      background-color: transparent;
+      color: $black-color65;
+      padding: 12px 30px 12px 15px;
+      border-radius: 8px;
+      border: none;
+      &:focus {
+        box-shadow: none;
+      }
+      span {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-line-clamp: 1;
+        -webkit-box-orient: vertical;
+      }
+      svg {
+        margin-right: 12px;
+      }
+      &::after {
+        position: absolute;
+        width: 16px;
+        height: 16px;
+        top: 50%;
+        transform: translateY(-50%);
+        //   background-image: url(../../../assets/images/sidebar-arrow.png);
+        background-size: contain;
+        background-position: center;
+        right: 15px;
+      }
+    }
+    .accordion-button:not(.collapsed) {
+      background-color: $black-color40;
+      color: $black-color65;
+      box-shadow: none;
+      border-radius: 8px;
+      &::after {
+        width: 16px;
+        height: 16px;
+        transform: translateY(-50%) rotate(90deg);
+        background-size: contain;
+        background-position: center;
+      }
+    }
+  }
+  .accordion-body {
+    padding: 8px 0 0 0;
+
+    .menu-li {
+      &:not(:last-child) {
+        margin-bottom: 4px;
+      }
+
+      .active .menu-a {
+        background-color: $action-primary;
+        color: $white-color;
+      }
+    }
+    .menu-a {
+      display: flex;
+      align-items: center;
+      padding: 6px 15px;
+      color: $black-color65;
+      background-color: transparent;
+      border-radius: 8px;
+      transition: 0.3s;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-line-clamp: 1;
+      -webkit-box-orient: vertical;
+      cursor: pointer;
+      &:hover {
+        background-color: $action-primary;
+        color: $white-color;
+      }
+      svg {
+        margin-right: 12px;
+      }
+    }
+  }
+
+  .loading-link {
+    margin: 17px 30px 34px 15px;
+    background: lighten($action-primary, 60);
+    height: 18px;
+    border-radius: 8px;
+  }
+}
+
+/*====================================
+          Sidebar End Here
+    ====================================*/

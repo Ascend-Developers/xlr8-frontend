@@ -1,3 +1,4 @@
+import Layout from 'components/layout/Layout'
 import React from 'react'
 import { Navigate } from 'react-router-dom'
 
@@ -6,7 +7,7 @@ function Protected({ isLoggedIn = true, children }) {
     return <Navigate to='/' replace />
   }
 
-  return <>{children}</>
+  return <Layout>{children}</Layout>
 }
 
 export default Protected
