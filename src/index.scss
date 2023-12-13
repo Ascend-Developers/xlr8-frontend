@@ -1,15 +1,175 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700;800&display=swap');
+@import '~bootstrap/scss/bootstrap';
+@import 'assets/variable.scss';
+
+a {
+  display: block;
+  text-decoration: none;
+  &:hover {
+    text-decoration: none;
+  }
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+.main-content {
+  width: 96%;
+  margin-left: 1.5rem;
+}
+
+.heading-h1 {
+  font-size: $font-size-h1;
+  line-height: $line-height-h1;
+  font-family: 'Open Sans';
+  font-weight: 700;
+}
+
+.heading-h2 {
+  font-size: $font-size-h2;
+  line-height: $line-height-h2;
+  font-family: 'Open Sans';
+  font-weight: 700;
+}
+
+.heading-h3 {
+  font-size: $font-size-h3;
+  line-height: $line-height-h3;
+  font-family: 'Open Sans';
+  font-weight: 700;
+}
+
+.heading-h4 {
+  font-size: $font-size-h4;
+  line-height: $line-height-h4;
+  font-family: 'Open Sans';
+  font-weight: 700;
+}
+
+.heading-h5 {
+  font-size: $font-size-h5;
+  line-height: $line-height-h5;
+  font-family: 'Open Sans';
+  font-weight: 700;
+}
+
+.heading-h6 {
+  font-size: $font-size-h6;
+  line-height: $line-height-h6;
+  font-family: 'Open Sans';
+  font-weight: 700;
+}
+
+.heading-sm {
+  font-size: $font-size-sm;
+  line-height: $line-height-sm;
+  font-family: 'Open Sans';
+  font-weight: 400;
+}
+.heading-smb {
+  font-size: $font-size-sm;
+  line-height: $line-height-sm;
+  font-family: 'Open Sans';
+  font-weight: 700;
+}
+
+.heading-xs {
+  font-size: $font-size-xs;
+  line-height: $line-height-sm;
+  font-family: 'Open Sans';
+  font-weight: 400;
+  color: $gray-color4;
+}
+
+.heading-xsb {
+  font-size: $font-size-xs;
+  line-height: $line-height-xs;
+  font-family: 'Open Sans';
+  font-weight: 700;
+}
+.primary-btn {
+  font-size: $font-size-sm;
+  line-height: $line-height-sm;
+  font-family: 'Open Sans';
+  font-weight: 600;
+  color: $gray-color4;
+  background-color: $action-primary;
+  border: 1px solid transparent;
+  padding: 9.5px 24px;
+  border-radius: 0px;
+  transition: 0.3s;
+  cursor: pointer;
+  white-space: nowrap;
+
+  &:not(:disabled) {
+    &:hover {
+      background-color: transparent;
+      border: 1px solid $action-primary;
+      color: $gray-color4;
+    }
+  }
+
+  &:disabled {
+    background: #adadad;
+  }
+}
+.secondary-btn {
+  font-size: $font-size-sm;
+  line-height: $line-height-sm;
+  font-family: 'Open Sans';
+  font-weight: 600;
+  color: $gray-color4;
+  background: rgba(10, 10, 10, 0.1);
+  border: 1px solid transparent;
+  padding: 9.5px 24px;
+  border-radius: 0px;
+  transition: 0.3s;
+  cursor: pointer;
+  white-space: nowrap;
+
+  &:not(:disabled) {
+    &:hover {
+      background-color: transparent;
+      border: 1px solid $action-primary;
+      color: $gray-color4;
+    }
+  }
+
+  &:disabled {
+    background: #adadad;
+  }
+}
+.danger-btn {
+  font-size: $font-size-sm;
+  line-height: $line-height-sm;
+  font-family: 'Open Sans';
+  font-weight: 600;
+  color: $white-color;
+  background: $action-danger;
+  border: 1px solid transparent;
+  padding: 9.5px 24px;
+  border-radius: 0px;
+  transition: 0.3s;
+  cursor: pointer;
+  white-space: nowrap;
+
+  &:not(:disabled) {
+    &:hover {
+      background-color: transparent;
+      border: 1px solid $action-primary;
+      color: $gray-color4;
+    }
+  }
+
+  &:disabled {
+    background: #adadad;
+  }
+}
+header {
+  padding: 0px 48px;
+  height: 107px;
+  display: flex;
+  align-items: center;
+}
+body {
+  background-color: $background-color;
 }
 .body-content {
   transition: margin 0.3s ease-in-out;
@@ -17,4 +177,30 @@ code {
 .body-content.has-sidebar {
   margin-left: 270px;
   margin-right: 0;
+}
+.linkk-otr {
+  display: flex;
+  align-items: center;
+  gap: 0 8px;
+}
+.page-linkk {
+  &:not(:last-child) {
+    color: $black-color65;
+  }
+  &:last-child {
+    color: $black-color65;
+  }
+  a {
+    color: inherit;
+  }
+}
+@media (max-width: $small-screen) {
+  body {
+    background-color: $white-color;
+  }
+}
+
+.search-icon {
+  position: absolute;
+  margin-top: 1.2rem;
 }

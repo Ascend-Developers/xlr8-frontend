@@ -1,0 +1,26 @@
+@import '../../assets/variable.scss';
+
+.user-main {
+  .table-head-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 30px;
+    .select-main {
+      display: flex;
+      align-items: center;
+      gap: 0 17px;
+    }
+    .select-text {
+      color: $black-color40;
+    }
+    .search-otr {
+      display: flex;
+      align-items: center;
+      gap: 0 30px;
+      .action {
+        display: flex;
+      }
+    }
+  }
+}

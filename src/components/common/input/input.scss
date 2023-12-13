@@ -1,0 +1,47 @@
+@import '../../../assets/variable.scss';
+
+.input-otr {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px 0;
+  margin: 10px 0;
+  width: auto !important;
+}
+
+.input-label {
+  font-size: $font-size-xs;
+  line-height: $line-height-sm;
+  font-family: 'Open Sans';
+  font-weight: 700;
+  color: $gray-color4;
+  opacity: 0.65;
+}
+
+.theme-input {
+  font-size: $font-size-sm;
+  line-height: $line-height-sm;
+  font-family: 'Open Sans';
+  font-weight: 400;
+  color: $gray-color4;
+  background-color: transparent;
+  border: 1px solid #ced4da;
+  padding: 8px 28px;
+  border-radius: 0px;
+  position: relative;
+  z-index: 10;
+  transition: 0.3s;
+  &:focus {
+    border: 1px solid $action-primary;
+    outline: none;
+  }
+
+  &:focus::placeholder {
+    opacity: 0;
+  }
+  &::placeholder {
+    color: $gray-color4;
+    transition: 0.3s;
+    opacity: 0.45;
+  }
+}

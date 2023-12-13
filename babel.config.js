@@ -7,11 +7,12 @@ module.exports = {
       {
         root: ['./src'],
         alias: {
-          constants: './constants',
-          utils: './utils',
-          containers: './containers',
-          components: './components',
-          assets: './assets',
+          'constants/*': ['./src/constants/*'],
+          'utils/*': ['./src/utils/*'],
+          'containers/*': ['./src/containers/*'],
+          'components/*': ['./components/*'],
+          'store/*': ['./store/*'],
+          'assets/*': ['./assets/*'],
         },
       },
     ],

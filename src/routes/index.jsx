@@ -1,5 +1,6 @@
 import React from 'react'
 import { Route, Routes, BrowserRouter as Router } from 'react-router-dom'
+import UsersPage from 'containers/users/UsersPage'
 import HomePage from '../containers/home/HomePage'
 import SignIn from '../containers/sigin-in/SiginIn'
 import Protected from './Protected'
@@ -17,6 +18,14 @@ function AppRoutes() {
           element={
             <Protected isLoggedIn>
               <HomePage />
+            </Protected>
+          }
+        />
+        <Route
+          path='/users'
+          element={
+            <Protected isLoggedIn>
+              <UsersPage />
             </Protected>
           }
         />
