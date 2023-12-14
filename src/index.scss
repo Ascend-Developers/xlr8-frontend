@@ -204,3 +204,25 @@ body {
   position: absolute;
   margin-top: 1.2rem;
 }
+.field-wrapper {
+  padding: 10px 0;
+  p {
+    color: $action-danger;
+  }
+}
+.error-text {
+  color: $action-danger;
+  font-size: 14px;
+}
+.named-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: $background-color;
+  color: $white-color;
+  font-weight: 400;
+  font-size: 14px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

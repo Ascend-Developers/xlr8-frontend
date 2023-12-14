@@ -26,6 +26,12 @@ function Sidebar() {
             <span className='heading-smb'>Dashboard</span>
           </p>
         </NavLink>
+        <NavLink to='/users'>
+          <p className='menu-linkk'>
+            <House size={24} className='menu-linkk-icon' />
+            <span className='heading-smb'>Users</span>
+          </p>
+        </NavLink>
         <NavLink to='/event'>
           <p className='menu-linkk'>
             <House size={24} className='menu-linkk-icon' />

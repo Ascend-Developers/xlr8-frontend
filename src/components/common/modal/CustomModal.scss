@@ -1,0 +1,68 @@
+@import '../../../assets/variable.scss';
+
+.modal {
+  .modal-dialog {
+    max-width: 1110px;
+  }
+  .modal-sm {
+    max-width: 640px;
+  }
+  .modal-content {
+    border-radius: 16px;
+    background-color: $white-color;
+  }
+  .modal-header {
+    padding: 24px 30px;
+    background-color: $white-color;
+    border: none;
+    border-radius: 0;
+    .modal-heading {
+      color: $black-color65;
+    }
+    .btn-close {
+      display: none;
+    }
+    .close-icon-otr {
+      background-color: transparent;
+      padding: 0;
+      border-radius: 0;
+      border: none;
+      box-shadow: none;
+      cursor: pointer;
+      svg {
+        color: $black-color65;
+      }
+    }
+  }
+  .modal-body {
+    padding: 24px 30px 36px 30px;
+    .input-main {
+      display: flex;
+      align-items: center;
+      gap: 0 30px;
+      width: 100%;
+      &:not(:last-child) {
+        margin-bottom: 24px;
+      }
+    }
+    .input-otr {
+      width: 50%;
+    }
+    .input {
+      width: 100%;
+    }
+    .select-otr {
+      width: 50%;
+      .Label-theme {
+        margin-bottom: 8px;
+      }
+      .css-6j8wv5-Input {
+        padding: 12px 0;
+      }
+    }
+    .action {
+      display: flex;
+      margin-top: 30px;
+    }
+  }
+}

@@ -31,5 +31,12 @@ const getBreadcrumbs = (pathname) => {
 
   return breadCrumbs
 }
+const getActionButtonProps = (label, handleClick) => [
+  {
+    label,
+    handleClick,
+    classes: 'primary-btn record-btn',
+  },
+]
 
-export { getBreadcrumbs }
+export { getBreadcrumbs, getActionButtonProps }

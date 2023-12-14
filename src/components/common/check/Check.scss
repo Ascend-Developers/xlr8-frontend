@@ -1,0 +1,35 @@
+@import '../../../assets/variable.scss';
+
+.form-check {
+  display: flex;
+  align-items: center;
+  gap: 0 12px;
+}
+
+.form-check-input {
+  width: 24px;
+  height: 24px;
+  border: 1px solid $black-color65;
+  border-radius: 8px !important;
+  &:focus {
+    border: 1px solid $black-color65;
+    box-shadow: none;
+  }
+}
+
+.form-check-input:checked[type='checkbox'] {
+  background: url(../../../assets/images/check-icon.svg) $light-primary;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  border-radius: 8px;
+}
+
+.form-check-input:checked {
+  border: none;
+}
+
+.form-check-label {
+  color: $black-color65;
+  cursor: pointer;
+}
