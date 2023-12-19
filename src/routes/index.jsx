@@ -1,22 +1,26 @@
 import React from 'react'
 import { Route, Routes, BrowserRouter as Router } from 'react-router-dom'
 import UsersPage from 'containers/users/UsersPage'
+import SignIn from 'containers/sigin-in/SignIn'
+import { RESET_PASSWORD_PATH } from 'constants/RoutePaths'
+import ResetPassword from 'containers/reset-password/ResetPassword'
+import PropTypes from 'prop-types'
 import HomePage from '../containers/home/HomePage'
-import SignIn from '../containers/sigin-in/SiginIn'
 import Protected from './Protected'
 
-function AppRoutes() {
+function AppRoutes({ isLoggedIn }) {
   return (
     <Router>
       <Routes>
         {/* Guest Routes */}
         <Route path='/' element={<SignIn />} />
+        <Route path={RESET_PASSWORD_PATH} element={<ResetPassword />} />
 
         {/* Protected Routes */}
         <Route
           path='/home'
           element={
-            <Protected isLoggedIn>
+            <Protected isLoggedIn={isLoggedIn}>
               <HomePage />
             </Protected>
           }
@@ -24,7 +28,7 @@ function AppRoutes() {
         <Route
           path='/users'
           element={
-            <Protected isLoggedIn>
+            <Protected isLoggedIn={isLoggedIn}>
               <UsersPage />
             </Protected>
           }
@@ -32,6 +36,9 @@ function AppRoutes() {
       </Routes>
     </Router>
   )
+}
+AppRoutes.propTypes = {
+  isLoggedIn: PropTypes.bool.isRequired,
 }
 
 export default AppRoutes

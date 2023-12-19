@@ -4,11 +4,12 @@ import React from 'react'
 import { NavLink } from 'react-router-dom'
 import { House } from 'phosphor-react'
 import { Accordion } from 'react-bootstrap'
+import PropTypes from 'prop-types'
 import Logo from '../../../assets/images/Logo.png'
 
 import './Sidebar.scss'
 
-function Sidebar() {
+function Sidebar({ logoutHandler }) {
   return (
     <div className='App sidebar-main'>
       <div className='logo-menu-otr'>
@@ -39,14 +40,25 @@ function Sidebar() {
           </p>
         </NavLink>
       </Accordion>
-      <NavLink to='/event'>
-        <p className='menu-linkk-logout'>
-          <House size={24} className='menu-linkk-icon' />
-          <span className='heading-smb'>Logout</span>
-        </p>
-      </NavLink>
+      <div
+        role='button'
+        tabIndex={0}
+        className='menu-linkk-logout'
+        onClick={logoutHandler}
+        onKeyDown={(e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault()
+          }
+        }}
+      >
+        <House size={24} className='menu-linkk-icon' />
+        <span className='heading-smb'>Logout</span>
+      </div>
     </div>
   )
+}
+Sidebar.propTypes = {
+  logoutHandler: PropTypes.func.isRequired,
 }
 
 export default Sidebar

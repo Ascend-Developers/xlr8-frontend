@@ -1,4 +1,6 @@
 import { startCase, forEach } from 'lodash'
+import { useLocation } from 'react-router-dom'
+import React from 'react'
 
 const getBreadcrumbs = (pathname) => {
   const urlPath = pathname.split('/')
@@ -39,4 +41,38 @@ const getActionButtonProps = (label, handleClick) => [
   },
 ]
 
-export { getBreadcrumbs, getActionButtonProps }
+const getAccessToken = () => localStorage.getItem('access_token')
+const setAccessToken = (accessToken) =>
+  localStorage.setItem('access_token', accessToken)
+const setUserInfoInStorage = (userInfo = {}) =>
+  localStorage.setItem('uuInfo', JSON.stringify(userInfo))
+function useQuery() {
+  const { search } = useLocation()
+  return React.useMemo(() => new URLSearchParams(search), [search])
+}
+const checkUserLoggedInStatus = () => {
+  if (getAccessToken()) {
+    return true
+  }
+
+  return false
+}
+const removeAccessToken = () => {
+  localStorage.removeItem('access_token')
+}
+
+const removeUserInfoFromStorage = () => {
+  localStorage.removeItem('uuInfo')
+}
+
+export {
+  getBreadcrumbs,
+  getActionButtonProps,
+  getAccessToken,
+  setAccessToken,
+  useQuery,
+  checkUserLoggedInStatus,
+  setUserInfoInStorage,
+  removeAccessToken,
+  removeUserInfoFromStorage,
+}

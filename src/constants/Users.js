@@ -5,8 +5,26 @@ const userValidationSchema = yup.object().shape({
   gender: yup.string().required('Required *'),
   email: yup.string().email().required('Required *'),
   phone: yup.number().required('Required *'),
-  company: yup.number(),
-  field_id: yup.string(),
+  company: yup.string(),
+  field: yup.string(),
+  password: yup.string().test({
+    name: 'conditionalPassword',
+    test(value) {
+      // Access the original object being validated
+      const obj = this.parent
+
+      // Check if _id is not present and password is empty
+      // eslint-disable-next-line no-underscore-dangle
+      if (!obj._id && !value) {
+        return this.createError({
+          path: 'password',
+          message: 'Password is required when _id is not present',
+        })
+      }
+
+      return true
+    },
+  }),
 })
 
 const userInitialValues = {
@@ -15,7 +33,8 @@ const userInitialValues = {
   email: '',
   phone: '',
   company: '',
-  field_id: '',
+  field: '',
+  password: '',
 }
 
 const GENDERS = [

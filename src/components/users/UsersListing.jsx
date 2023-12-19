@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import TableWrapper from 'components/common/table-wrapper/TableWrapper'
-import { fakeUsersData, initialMetaForTable } from 'constants/Common'
-import React, { useEffect } from 'react'
+import { alertTypes, initialMetaForTable } from 'constants/Common'
+import React, { useEffect, useState } from 'react'
 // import { useNavigate } from 'react-router-dom'
 import { PencilSimple, Trash } from 'phosphor-react'
 import { getActionButtonProps } from 'utils/common'
@@ -15,6 +15,15 @@ import {
 } from 'constants/Users'
 import Input from 'components/common/input/Input'
 import SelectComponent from 'components/common/select/SelectComponent'
+import {
+  createUser,
+  getUsers,
+  userStatusUpdate,
+  userUpdate,
+} from 'containers/users/Api'
+import { Button, ButtonGroup } from 'react-bootstrap'
+import { toast } from 'react-toastify'
+import CustomToast from 'components/common/custom-toast/CustomToast'
 
 let timeout
 const DEBOUNCE_DELAY = 700
@@ -23,9 +32,9 @@ function UsersListing() {
   const [usersList, setUsersList] = React.useState([])
   const [loading, setLoading] = React.useState(true)
   const [meta, setMeta] = React.useState(initialMetaForTable)
-  const [totalCount, setTotalCount] = React.useState(0)
   const [isUserModalVisible, setUserModalVisible] = React.useState(false)
   const [refresh, setRefresh] = React.useState(false)
+  const [selectedUser, setSelectedUser] = useState()
 
   const handleRefresh = () => {
     setRefresh((pre) => !pre)
@@ -39,7 +48,6 @@ function UsersListing() {
     timeout = setTimeout(callback, delay)
   }
   const handleSetSearchQuery = (value) => {
-    console.log('value is-----------', value)
     setMeta((pre) => ({ ...pre, search: value }))
     debounceFn(handleRefresh, DEBOUNCE_DELAY)
   }
@@ -49,14 +57,79 @@ function UsersListing() {
   }
   const handleCloseModal = () => {
     setUserModalVisible(false)
+    setSelectedUser()
   }
   const handleOpenModal = () => {
     setUserModalVisible(true)
   }
-  useEffect(() => {
+  const fetchUsers = async () => {
+    const result = await getUsers(meta.page, meta.perPage, meta.search)
+    if (result?.LastPage && result?.Total) {
+      const resultMeta = result
+      setMeta((pre) => ({
+        ...pre,
+        totalCount: resultMeta.Total,
+        totalPages: resultMeta.LastPage,
+      }))
+    }
+    if (result?.data) {
+      const { data } = result
+      setUsersList(data)
+    }
     setLoading(false)
-    setUsersList(fakeUsersData)
-    setTotalCount(100)
+  }
+  const handleUpdateUserStatus = async (id, status) => {
+    const result = await userStatusUpdate({ userId: id, status })
+    if (result?.status === 200) {
+      toast(
+        <CustomToast
+          variant={alertTypes.SUCCESS}
+          message={result?.statusText || 'User Updated Successfully!'}
+        />
+      )
+      handleRefresh()
+    } else {
+      toast(
+        <CustomToast
+          variant={alertTypes.DANGER}
+          message={result?.response?.data?.error}
+        />
+      )
+    }
+  }
+  const handleCreateUser = async (values) => {
+    const result = await createUser({
+      ...values,
+      phone: String(values.phone),
+      type: 'user',
+    })
+    if (result?.status === 200) {
+      toast(
+        <CustomToast
+          variant={alertTypes.SUCCESS}
+          message={result?.statusText || 'User Created Successfully!'}
+        />
+      )
+      handleRefresh()
+      handleCloseModal()
+    } else {
+      toast(
+        <CustomToast
+          variant={alertTypes.DANGER}
+          message={result?.response?.data?.error}
+        />
+      )
+    }
+  }
+  const handleUpdateUser = async (values) => {
+    const result = await userUpdate(values)
+    if (result?.status === 200) {
+      handleCloseModal()
+      handleRefresh()
+    }
+  }
+  useEffect(() => {
+    fetchUsers()
   }, [refresh])
   return (
     <div className='user-main'>
@@ -65,7 +138,7 @@ function UsersListing() {
           setPerPage={handleSetPerPage}
           setSearchQuery={handleSetSearchQuery}
           searchValue={meta.search}
-          totalListCount={totalCount}
+          totalListCount={meta.totalCount}
           pageSize={meta.perPage}
           currentPage={meta.page}
           onPageChange={handlePageChange}
@@ -103,6 +176,16 @@ function UsersListing() {
                         aria-label='User Name Column'
                       >
                         User Name
+                      </p>
+                    </div>
+                  </th>
+                  <th scope='col'>
+                    <div className='header-text-otr'>
+                      <p
+                        className='table-name heading-xsb'
+                        aria-label='User Name Column'
+                      >
+                        Photo
                       </p>
                     </div>
                   </th>
@@ -171,7 +254,13 @@ function UsersListing() {
                         </p>
                       </div>
                     </th>
-
+                    <td>
+                      <div className='table-text-otr'>
+                        <p className='table-text-black' title={item.name}>
+                          {item.name}
+                        </p>
+                      </div>
+                    </td>
                     <td>
                       <div className='profile-otr' title={item.userName}>
                         <div className='named-avatar'>{item.userName}</div>
@@ -200,49 +289,79 @@ function UsersListing() {
                     </td>
                     <td>
                       <div className='table-text-otr'>
-                        <p
-                          className='table-text-black'
-                          title={item.phoneNumber}
-                        >
-                          {item.phoneNumber}
+                        <p className='table-text-black' title={item.phone}>
+                          {item.phone}
                         </p>
                       </div>
                     </td>
 
                     <td className='action-column'>
                       <div className='table-icon-otr'>
-                        <div
-                          className='icon-otr'
-                          onClick={(e) => {
-                            console.log(e)
-                          }}
-                          onKeyDown={(e) => {
-                            if (e.key === 'Enter' || e.key === ' ') {
-                              console.log('Enter key or Spacebar pressed')
-                            }
-                          }}
-                          role='button'
-                          tabIndex={0}
-                          aria-label='Edit User'
-                        >
-                          <PencilSimple size={18} />
-                        </div>
-                        <div
-                          className='icon-otr'
-                          onClick={(e) => {
-                            console.log(e)
-                          }}
-                          onKeyDown={(e) => {
-                            if (e.key === 'Enter' || e.key === ' ') {
-                              console.log('Enter key or Spacebar pressed')
-                            }
-                          }}
-                          role='button'
-                          tabIndex={0}
-                          aria-label='Delete User'
-                        >
-                          <Trash size={18} />
-                        </div>
+                        {item?.status?.toLowerCase() === 'pending' ? (
+                          <ButtonGroup>
+                            <Button
+                              variant='success'
+                              size='sm'
+                              onClick={() => {
+                                // eslint-disable-next-line no-underscore-dangle
+                                handleUpdateUserStatus(item._id, 'approved')
+                              }}
+                            >
+                              Approve
+                            </Button>
+                            <Button
+                              variant='danger'
+                              size='sm'
+                              onClick={() => {
+                                // eslint-disable-next-line no-underscore-dangle
+                                handleUpdateUserStatus(item._id, 'rejected')
+                              }}
+                            >
+                              Reject
+                            </Button>
+                          </ButtonGroup>
+                        ) : (
+                          <>
+                            <div
+                              className='icon-otr'
+                              onClick={(e) => {
+                                console.log(e)
+                              }}
+                              onKeyDown={(e) => {
+                                if (e.key === 'Enter' || e.key === ' ') {
+                                  console.log('Enter key or Spacebar pressed')
+                                }
+                              }}
+                              role='button'
+                              tabIndex={0}
+                              aria-label='Edit User'
+                            >
+                              <PencilSimple
+                                size={18}
+                                onClick={() => {
+                                  setSelectedUser(item)
+                                  handleOpenModal()
+                                }}
+                              />
+                            </div>
+                            <div
+                              className='icon-otr'
+                              onClick={(e) => {
+                                console.log(e)
+                              }}
+                              onKeyDown={(e) => {
+                                if (e.key === 'Enter' || e.key === ' ') {
+                                  console.log('Enter key or Spacebar pressed')
+                                }
+                              }}
+                              role='button'
+                              tabIndex={0}
+                              aria-label='Delete User'
+                            >
+                              <Trash size={18} />
+                            </div>
+                          </>
+                        )}
                       </div>
                     </td>
                   </tr>
@@ -257,13 +376,15 @@ function UsersListing() {
           size='md'
           show
           onHide={handleCloseModal}
-          heading='Create User'
+          heading={`${selectedUser ? 'Edit' : 'Create'} User`}
         >
           <Formik
-            initialValues={userInitialValues}
+            initialValues={selectedUser || userInitialValues}
             validationSchema={userValidationSchema}
             onSubmit={(values) => {
-              console.log('form values are', values)
+              if (selectedUser) {
+                handleUpdateUser(values)
+              } else handleCreateUser(values)
             }}
           >
             {({ handleChange, values, handleSubmit, setFieldValue }) => (
@@ -322,6 +443,25 @@ function UsersListing() {
                       />
                     </div>
                   </div>
+                  {!selectedUser && (
+                    <div className='col-md-6'>
+                      <div className='field-wrapper'>
+                        <Input
+                          name='password'
+                          handleChange={handleChange}
+                          placeholder='Password'
+                          label='Password *'
+                          value={values?.password}
+                          type='password'
+                        />
+                        <ErrorMessage
+                          className='error-text'
+                          component='p'
+                          name='password'
+                        />
+                      </div>
+                    </div>
+                  )}
                   <div className='col-md-6'>
                     <div className='field-wrapper'>
                       <Input
@@ -361,18 +501,18 @@ function UsersListing() {
                         Field *
                       </label>
                       <SelectComponent
-                        name='field_id'
+                        name='field'
                         options={FIELDS}
-                        selectedValue={values.field_id}
+                        selectedValue={values.field}
                         placeholder='Select'
                         handleChange={(obj) => {
-                          setFieldValue('field_id', obj.value)
+                          setFieldValue('field', obj.value)
                         }}
                       />
                       <ErrorMessage
                         className='error-text'
                         component='p'
-                        name='field_id'
+                        name='field'
                       />
                     </div>
                   </div>
