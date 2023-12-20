@@ -7,9 +7,9 @@ pipeline {
                 // Your build and deployment steps here
                 sh 'rsync -avz -e "ssh -p 9977" /var/lib/jenkins/workspace/PRD-ASCEND-EVENT-XLER8-FE/ devops-ascendmgr@185.164.25.83:/home/devops-ascendmgr/public_html/xlr8-frontend'
                 // Run npm vervions remotely 
-                sh 'ssh -p 9977 devops-ascendmgr@185.164.25.83 "cd /home/devops-ascendmgr/public_html/xlr8-frontend && node -v && nvm use v18.19.0"' 
+                // sh 'ssh -p 9977 devops-ascendmgr@185.164.25.83 "cd /home/devops-ascendmgr/public_html/xlr8-frontend && node -v && nvm use v18.19.0"' 
                 // Run install & build or perform additional actions if needed 
-                sh 'ssh -p 9977 devops-ascendmgr@185.164.25.83 "cd /home/devops-ascendmgr/public_html/xlr8-frontend && npm install && npm run build"' 
+                sh 'ssh -p 9977 devops-ascendmgr@185.164.25.83 "cd /home/devops-ascendmgr/public_html/xlr8-frontend && /home/devops-ascendmgr/.nvm/versions/node/v18.19.0/bin/npm install && /home/devops-ascendmgr/.nvm/versions/node/v18.19.0/bin/npm run build"' 
             }
         }
     }
