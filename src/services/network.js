@@ -1,6 +1,17 @@
 /* eslint-disable prefer-destructuring */
 import axios from 'axios'
-import { getAccessToken } from 'utils/common'
+import { LOGIN_PATH } from 'constants/RoutePaths'
+import {
+  getAccessToken,
+  removeAccessToken,
+  removeUserInfoFromStorage,
+} from 'utils/common'
+
+const navigateToLogin = () => {
+  removeAccessToken()
+  removeUserInfoFromStorage()
+  window.location.href = LOGIN_PATH
+}
 
 const hookRequestInterceptorsWithAxiosInstance = (instance) =>
   instance.interceptors.request.use(
@@ -13,7 +24,14 @@ const hookResponseInterceptorsWithAxiosInstance = (instance) =>
     // Any status code that lie within the range of 2xx cause this function to trigger
     (response) => response,
     // Any status codes that falls outside the range of 2xx cause this function to trigger
-    (error) => Promise.reject(error)
+    (error) => {
+      const { response } = error
+      if (response && response.status === 401) {
+        // Handle 401 unauthorized error, e.g., redirect to login route
+        navigateToLogin()
+      }
+      return Promise.reject(error)
+    }
   )
 
 function getAxios(tokenizeInstance, accessToken = null) {
