@@ -12,10 +12,10 @@ pipeline {
         stage('Build Commands') {
             steps {
                 // npm install remotely
-                sh 'ssh -p 9977 devops-ascendmgr@185.164.25.83 "export PATH=$PATH:/home/devops-ascendmgr/.nvm/versions/node/v18.19.0/bin && cd /home/devops-ascendmgr/public_html/xlr8-frontend && npm install"'
+                //sh 'ssh -p 9977 devops-ascendmgr@185.164.25.83 "export PATH=$PATH:/home/devops-ascendmgr/.nvm/versions/node/v18.19.0/bin && cd /home/devops-ascendmgr/public_html/xlr8-frontend && npm install"'
                 
                 // npm run build remotely
-                sh 'ssh -p 9977 devops-ascendmgr@185.164.25.83 "export PATH=$PATH:/home/devops-ascendmgr/.nvm/versions/node/v18.19.0/bin && cd /home/devops-ascendmgr/public_html/xlr8-frontend && npm run build"'
+                //sh 'ssh -p 9977 devops-ascendmgr@185.164.25.83 "export PATH=$PATH:/home/devops-ascendmgr/.nvm/versions/node/v18.19.0/bin && cd /home/devops-ascendmgr/public_html/xlr8-frontend && npm run build"'
             }
         }
     }
