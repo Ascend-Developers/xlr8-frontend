@@ -1,0 +1,95 @@
+pipeline {
+    agent any
+    
+    stages {
+        stage('Sync Code') {
+            steps {
+                // Your rsync command
+                sh 'rsync -avz -e "ssh -p 9977" /var/lib/jenkins/workspace/PRD-ASCEND-EVENT-XLER8-FE/ devops-ascendmgr@185.164.25.83:/home/devops-ascendmgr/public_html/xlr8-frontend'
+            }
+        }
+        
+        stage('build Commands') {
+            steps {
+                // Execute npm install and build commands remotely
+                sh 'ssh -p 9977 devops-ascendmgr@185.164.25.83 "cd /home/devops-ascendmgr/public_html/xlr8-frontend && npm install"'
+                sh 'ssh -p 9977 devops-ascendmgr@185.164.25.83 "cd /home/devops-ascendmgr/public_html/xlr8-frontend && npm run build"'
+            }
+        }
+    }
+    
+    post { 
+        success { 
+            echo 'Deployment successful!' 
+            // Send notification to Microsoft Teams on success 
+
+            script { 
+                def teamsURL = 'https://ascendcomsa.webhook.office.com/webhookb2/0a01b1f9-d038-4b47-8f0f-9776224852fc@ab77ed4a-8486-47c5-8ba9-9c0241bed745/IncomingWebhook/2355c7af02a04f5d8ee0da94d01c97ac/034c41f7-0528-4216-916e-f9fab4ea0fae' 
+                def teamsMessage = ''' 
+
+                { 
+                    "@type": "MessageCard", 
+                    "@context": "http://schema.org/extensions", 
+                    "themeColor": "0076D7", 
+                    "summary": "Jenkins Notification - Deployment successful", 
+                    "sections": [ 
+
+                        { 
+                            "activityTitle": "Jenkins Notification", 
+                            "activitySubtitle": "Deployment successful!", 
+                            "activityImage": "", 
+                            "facts": [ 
+                                {"name": "Status", "value": "Deployment successful!"}, 
+                                {"name": "Project", "value": "PRD-ASCEND-EVENT-XLER8-FE"}, 
+                                {"name": "Git Branch", "value": "production"},
+                                {"name": "QA-Test", "value": "Passed"} 
+                            ] 
+                        } 
+                    ] 
+                } 
+                ''' 
+
+                // Send HTTP POST request using curl 
+                sh "curl -X POST -H 'Content-Type: application/json' -d '${teamsMessage}' '${teamsURL}'" 
+            } 
+        } 
+
+        failure { 
+
+            echo 'Deployment failed!' 
+            // Send notification to Microsoft Teams for failure 
+            script { 
+                def teamsURL = 'https://ascendcomsa.webhook.office.com/webhookb2/0a01b1f9-d038-4b47-8f0f-9776224852fc@ab77ed4a-8486-47c5-8ba9-9c0241bed745/IncomingWebhook/2355c7af02a04f5d8ee0da94d01c97ac/034c41f7-0528-4216-916e-f9fab4ea0fae' 
+                def teamsMessage = ''' 
+
+                { 
+
+                    "@type": "MessageCard", 
+                    "@context": "http://schema.org/extensions", 
+                    "themeColor": "D00000", 
+                    "summary": "Jenkins Notification - Deployment failed", 
+                    "sections": [ 
+
+                        { 
+
+                            "activityTitle": "Jenkins Notification", 
+                            "activitySubtitle": "Deployment failed!", 
+                            "activityImage": "", 
+                            "facts": [ 
+                                {"name": "Status", "value": "Deployment failed!"} 
+
+                            ] 
+                        } 
+                    ] 
+                } 
+
+                ''' 
+
+  
+
+                // Send HTTP POST request using curl 
+                sh "curl -X POST -H 'Content-Type: application/json' -d '${teamsMessage}' '${teamsURL}'" 
+            } 
+        } 
+    } 
+} 
