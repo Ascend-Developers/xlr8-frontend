@@ -16,7 +16,7 @@ pipeline {
                 sh '''
                     ssh -p 9977 devops-ascendmgr@185.164.25.83 "\
                     export NVM_DIR=\"/home/devops-ascendmgr/.nvm\" && \
-                    [ -s \"$NVM_DIR/nvm.sh\" ] && \. \"$NVM_DIR/nvm.sh\" && \
+                    [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh" \
                     cd /home/devops-ascendmgr/public_html/xlr8-frontend && \
                     nvm use v18.19.0 && \
                     node -v && \
