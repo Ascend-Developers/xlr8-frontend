@@ -35,7 +35,7 @@ pipeline {
                             "activityImage": "",
                             "facts": [
                                 {"name": "Status", "value": "Deployment successful!"},
-                                {"name": "Project", "value": "DEV-D-Efficonx-FE"},
+                                {"name": "Project", "value": "PRD-ASCEND-EVENT-XLER8-FE"},
                                 {"name": "Git Branch", "value": "production"},
                                 {"name": "QA-Test", "value": "Passed"}
                             ]
@@ -69,7 +69,7 @@ pipeline {
                             "activityImage": "",
                             "facts": [
                                 {"name": "Status", "value": "Deployment failed!"},
-                                {"name": "Project", "value": "DEV-D-Efficonx-FE"},
+                                {"name": "Project", "value": "PRD-ASCEND-EVENT-XLER8-FE"},
                                 {"name": "Git Branch", "value": "production"},
                             ]
                         }
