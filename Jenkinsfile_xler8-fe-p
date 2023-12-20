@@ -1,7 +1,6 @@
 pipeline {
     agent any
-
-
+    
     stages {
         stage('Sync Code') {
             steps {
@@ -14,15 +13,15 @@ pipeline {
             steps {
                 // Execute npm install and build commands remotely
                 sh '''
-                    ssh -p 9977 devops-ascendmgr@185.164.25.83 "\
-                    export NVM_DIR=\"/home/devops-ascendmgr/.nvm\" && \
-                    [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh" \
-                    cd /home/devops-ascendmgr/public_html/xlr8-frontend && \
-                    nvm use v18.19.0 && \
-                    node -v && \
-                    npm -v && \
-                    npm install && \
-                    npm run build \
+                    ssh -p 9977 devops-ascendmgr@185.164.25.83 "
+                    export NVM_DIR=\"/home/devops-ascendmgr/.nvm\" &&
+                    [ -s \"$NVM_DIR/nvm.sh\" ] && . \"$NVM_DIR/nvm.sh\" &&
+                    cd /home/devops-ascendmgr/public_html/xlr8-frontend &&
+                    nvm use v18.19.0 &&
+                    node -v &&
+                    npm -v &&
+                    npm install &&
+                    npm run build
                     "
                 '''
             }
