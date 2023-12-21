@@ -40,7 +40,7 @@ export const userUpdate = async (values) => {
 
 export const userStatusUpdate = async (values) => {
   try {
-    const response = await post(USERS_STATUS_ENDPOINT, values, false)
+    const response = await post(USERS_STATUS_ENDPOINT, values, true)
     return response
   } catch (error) {
     console.error(error)
