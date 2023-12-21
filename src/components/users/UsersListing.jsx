@@ -17,6 +17,7 @@ import Input from 'components/common/input/Input'
 import SelectComponent from 'components/common/select/SelectComponent'
 import {
   createUser,
+  deleteUser,
   getUsers,
   userStatusUpdate,
   userUpdate,
@@ -24,6 +25,7 @@ import {
 import { Button, ButtonGroup } from 'react-bootstrap'
 import { toast } from 'react-toastify'
 import CustomToast from 'components/common/custom-toast/CustomToast'
+import UserDelete from './UserDelete'
 
 let timeout
 const DEBOUNCE_DELAY = 700
@@ -35,6 +37,7 @@ function UsersListing() {
   const [isUserModalVisible, setUserModalVisible] = React.useState(false)
   const [refresh, setRefresh] = React.useState(false)
   const [selectedUser, setSelectedUser] = useState()
+  const [isUserDeleteModalVisible, setDeleteUserModalVisible] = useState(false)
 
   const handleRefresh = () => {
     setRefresh((pre) => !pre)
@@ -121,6 +124,7 @@ function UsersListing() {
       )
     }
   }
+
   const handleUpdateUser = async (values) => {
     const result = await userUpdate(values)
     if (result?.status === 200) {
@@ -128,6 +132,35 @@ function UsersListing() {
       handleRefresh()
     }
   }
+  const handleCloseUserDeleteModal = () => {
+    setDeleteUserModalVisible(false)
+    setSelectedUser()
+  }
+  const handleOpenDeleteUserModal = () => {
+    setDeleteUserModalVisible(true)
+  }
+  const handleDeleteUser = async () => {
+    // eslint-disable-next-line no-underscore-dangle
+    const result = await deleteUser(selectedUser._id)
+    if (result?.status === 200) {
+      toast(
+        <CustomToast
+          variant={alertTypes.SUCCESS}
+          message={result?.statusText || 'User Deleted Successfully!'}
+        />
+      )
+      handleRefresh()
+      handleCloseUserDeleteModal()
+    } else {
+      toast(
+        <CustomToast
+          variant={alertTypes.DANGER}
+          message={result?.response?.data?.error}
+        />
+      )
+    }
+  }
+
   useEffect(() => {
     fetchUsers()
   }, [refresh])
@@ -324,14 +357,14 @@ function UsersListing() {
                           <>
                             <div
                               className='icon-otr'
-                              onClick={(e) => {
-                                console.log(e)
-                              }}
-                              onKeyDown={(e) => {
-                                if (e.key === 'Enter' || e.key === ' ') {
-                                  console.log('Enter key or Spacebar pressed')
-                                }
-                              }}
+                              // onClick={(e) => {
+                              //   console.log(e)
+                              // }}
+                              // onKeyDown={(e) => {
+                              //   if (e.key === 'Enter' || e.key === ' ') {
+                              //     console.log('Enter key or Spacebar pressed')
+                              //   }
+                              // }}
                               role='button'
                               tabIndex={0}
                               aria-label='Edit User'
@@ -346,19 +379,25 @@ function UsersListing() {
                             </div>
                             <div
                               className='icon-otr'
-                              onClick={(e) => {
-                                console.log(e)
-                              }}
-                              onKeyDown={(e) => {
-                                if (e.key === 'Enter' || e.key === ' ') {
-                                  console.log('Enter key or Spacebar pressed')
-                                }
-                              }}
+                              // onClick={(e) => {
+                              //   console.log(e)
+                              // }}
+                              // onKeyDown={(e) => {
+                              //   if (e.key === 'Enter' || e.key === ' ') {
+                              //     console.log('Enter key or Spacebar pressed')
+                              //   }
+                              // }}
                               role='button'
                               tabIndex={0}
                               aria-label='Delete User'
                             >
-                              <Trash size={18} />
+                              <Trash
+                                size={18}
+                                onClick={() => {
+                                  setSelectedUser(item)
+                                  handleOpenDeleteUserModal()
+                                }}
+                              />
                             </div>
                           </>
                         )}
@@ -371,6 +410,12 @@ function UsersListing() {
           )}
         </TableWrapper>
       </div>
+      {isUserDeleteModalVisible && (
+        <UserDelete
+          handleDeleteUser={handleDeleteUser}
+          handleCloseModal={handleCloseUserDeleteModal}
+        />
+      )}
       {isUserModalVisible && (
         <CustomModal
           size='md'
