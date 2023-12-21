@@ -33,7 +33,7 @@ function Sidebar({ logoutHandler }) {
             <span className='heading-smb'>Users</span>
           </p>
         </NavLink>
-        <NavLink to='/event'>
+        <NavLink to='/events'>
           <p className='menu-linkk'>
             <House size={24} className='menu-linkk-icon' />
             <span className='heading-smb'>Events</span>

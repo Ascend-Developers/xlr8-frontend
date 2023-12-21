@@ -84,6 +84,21 @@ a {
   font-family: 'Open Sans';
   font-weight: 700;
 }
+.max-width-100 {
+  max-width: $max-width-100;
+}
+.max-width-200 {
+  max-width: $max-width-200;
+}
+.max-width-300 {
+  max-width: $max-width-300;
+}
+.max-width-400 {
+  max-width: $max-width-400;
+}
+.max-width-500 {
+  max-width: $max-width-500;
+}
 .primary-btn {
   font-size: $font-size-sm;
   line-height: $line-height-sm;
