@@ -1,4 +1,6 @@
 import React from 'react'
+import InputMask from 'react-input-mask'
+
 import './input.scss'
 /* eslint-disable */
 
@@ -13,6 +15,8 @@ function Input({
   label,
   ...rest
 }) {
+  const saudiPhoneMask = '+966 99 999 9999'
+
   return (
     <div className={`${className || ''} input-otr`}>
       <label htmlFor='email' className='input-label'>
@@ -26,6 +30,17 @@ function Input({
           value={value}
           placeholder={placeholder}
           // eslint-disable-next-line react/jsx-props-no-spreading
+          {...rest}
+        />
+      ) : type === 'tel' ? (
+        <InputMask
+          mask={saudiPhoneMask}
+          maskChar=''
+          onChange={handleChange}
+          name={name}
+          className='theme-input input w-100'
+          value={value}
+          placeholder={placeholder}
           {...rest}
         />
       ) : (
