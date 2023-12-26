@@ -5,7 +5,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 30px;
+    padding: 10px 30px;
     .select-main {
       display: flex;
       align-items: center;
@@ -22,5 +22,35 @@
         display: flex;
       }
     }
+  }
+  .danger-color {
+    color: $action-danger;
+  }
+  .primary-color {
+    color: $action-primary;
+  }
+  .btn-group {
+    gap: 0px;
+    .btn-success {
+      border-top-left-radius: 20px;
+      border-bottom-left-radius: 20px;
+      // width: 61px;
+      font-size: 12px;
+    }
+    .btn-danger {
+      border-top-right-radius: 20px;
+      border-bottom-right-radius: 20px;
+      // width: 61px;
+      font-size: 12px;
+    }
+  }
+}
+.user-delete-modal {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  svg {
+    width: 50px;
+    height: 50px;
   }
 }

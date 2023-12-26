@@ -16,7 +16,7 @@ const getBreadcrumbs = (pathname) => {
 
   forEach(usablePath, (path, i) => {
     fullTrailPath += `${path + (i !== usablePath.length - 1 ? '/' : '')}`
-    if (fullTrailPath !== '/dashboard')
+    if (fullTrailPath !== '/home')
       breadCrumbs.push({
         name: startCase(path),
         route: fullTrailPath,

@@ -9,6 +9,7 @@ import React from 'react'
 const BASE_URL = process.env.REACT_APP_API_URL
 const GRANT_TYPE = 'password'
 
+const DEBOUNCE_DELAY = 700
 const initialMetaForTable = {
   page: 1,
   perPage: 20,
@@ -70,4 +71,5 @@ export {
   toastContainerProps,
   alertTypes,
   alertIcons,
+  DEBOUNCE_DELAY,
 }

@@ -5,6 +5,7 @@ import SignIn from 'containers/sigin-in/SignIn'
 import { RESET_PASSWORD_PATH } from 'constants/RoutePaths'
 import ResetPassword from 'containers/reset-password/ResetPassword'
 import PropTypes from 'prop-types'
+import EventsPage from 'containers/events/Events'
 import HomePage from '../containers/home/HomePage'
 import Protected from './Protected'
 
@@ -30,6 +31,14 @@ function AppRoutes({ isLoggedIn }) {
           element={
             <Protected isLoggedIn={isLoggedIn}>
               <UsersPage />
+            </Protected>
+          }
+        />
+        <Route
+          path='/events'
+          element={
+            <Protected isLoggedIn={isLoggedIn}>
+              <EventsPage />
             </Protected>
           }
         />
