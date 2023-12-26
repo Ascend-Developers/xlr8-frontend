@@ -39,11 +39,11 @@ const userInitialValues = {
 
 const GENDERS = [
   {
-    value: 'MALE',
+    value: 'Male',
     label: 'Male',
   },
   {
-    value: 'FEMALE',
+    value: 'Female',
     label: 'Female',
   },
 ]
