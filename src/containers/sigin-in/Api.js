@@ -8,9 +8,7 @@ import { post } from 'services/network'
 
 export const getAuthToken = ({ email, password }) => {
   const data = {
-    // name: 'admin',
-    // gender: 'male',
-    // phone: '123123213',
+    device_type: 'web',
     grant_type: GRANT_TYPE,
     email,
     password,

@@ -9,7 +9,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 30px;
+    padding: 10px 30px;
     .select-main {
       display: flex;
       align-items: center;
@@ -119,10 +119,13 @@
   .form-check-input {
     border-radius: 0% !important;
   }
+  .action-column {
+    text-align: center;
+  }
   .table-icon-otr {
     display: flex;
     align-items: center;
-    justify-content: flex-start;
+    justify-content: center;
     gap: 0 8px;
     .dropdown-toggle::after {
       display: none;

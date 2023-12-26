@@ -308,8 +308,11 @@ function UsersListing() {
                     </td>
                     <td>
                       <div className='table-text-otr'>
-                        <p className='table-text-black' title={item.gender}>
-                          {item.gender}
+                        <p
+                          className='table-text-black'
+                          title={item.gender?.toUpperCase()}
+                        >
+                          {item.gender?.toUpperCase()}
                         </p>
                       </div>
                     </td>
@@ -370,6 +373,7 @@ function UsersListing() {
                               aria-label='Edit User'
                             >
                               <PencilSimple
+                                className='primary-color'
                                 size={18}
                                 onClick={() => {
                                   setSelectedUser(item)
@@ -392,6 +396,7 @@ function UsersListing() {
                               aria-label='Delete User'
                             >
                               <Trash
+                                className='danger-color'
                                 size={18}
                                 onClick={() => {
                                   setSelectedUser(item)

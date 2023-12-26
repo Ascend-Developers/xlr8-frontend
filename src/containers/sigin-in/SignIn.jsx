@@ -42,7 +42,7 @@ function SignIn() {
       toast(
         <CustomToast
           variant={alertTypes.DANGER}
-          message={error?.response?.statusText}
+          message={error?.response?.data?.error || 'Error'}
         />
       )
       console.log(error)
