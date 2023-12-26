@@ -128,8 +128,21 @@ function UsersListing() {
   const handleUpdateUser = async (values) => {
     const result = await userUpdate(values)
     if (result?.status === 200) {
+      toast(
+        <CustomToast
+          variant={alertTypes.SUCCESS}
+          message={result?.statusText || 'User Deleted Successfully!'}
+        />
+      )
       handleCloseModal()
       handleRefresh()
+    } else {
+      toast(
+        <CustomToast
+          variant={alertTypes.DANGER}
+          message={result?.response?.data?.error}
+        />
+      )
     }
   }
   const handleCloseUserDeleteModal = () => {
@@ -520,7 +533,7 @@ function UsersListing() {
                         placeholder='Phone'
                         label='Phone Number *'
                         value={values.phone}
-                        type='number'
+                        type='tel'
                       />
                       <ErrorMessage
                         className='error-text'
