@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import TableWrapper from 'components/common/table-wrapper/TableWrapper'
 import { alertTypes, initialMetaForTable } from 'constants/Common'
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
 // import { useNavigate } from 'react-router-dom'
 import { PencilSimple, Trash } from 'phosphor-react'
 import { getActionButtonProps } from 'utils/common'
@@ -16,6 +16,7 @@ import {
 import Input from 'components/common/input/Input'
 import SelectComponent from 'components/common/select/SelectComponent'
 import {
+  UploadFile,
   createUser,
   deleteUser,
   getUsers,
@@ -25,6 +26,7 @@ import {
 import { Button, ButtonGroup } from 'react-bootstrap'
 import { toast } from 'react-toastify'
 import CustomToast from 'components/common/custom-toast/CustomToast'
+import { useDropzone } from 'react-dropzone'
 import UserDelete from './UserDelete'
 
 let timeout
@@ -38,6 +40,7 @@ function UsersListing() {
   const [refresh, setRefresh] = React.useState(false)
   const [selectedUser, setSelectedUser] = useState()
   const [isUserDeleteModalVisible, setDeleteUserModalVisible] = useState(false)
+  const inputRef = useRef(null)
 
   const handleRefresh = () => {
     setRefresh((pre) => !pre)
@@ -173,12 +176,53 @@ function UsersListing() {
       )
     }
   }
+  const handleImportUsers = () => {
+    inputRef.current.click()
+  }
+  const handleFileUpload = async (file) => {
+    const formData = new FormData()
+    formData.append('file', file)
+    const result = await UploadFile(formData)
+    if (result?.status === 200) {
+      handleRefresh()
+      toast(
+        <CustomToast
+          variant={alertTypes.SUCCESS}
+          message={result?.statusText || 'Users Created Successfully!'}
+        />
+      )
+      handleRefresh()
+      handleCloseUserDeleteModal()
+    } else {
+      toast(
+        <CustomToast
+          variant={alertTypes.DANGER}
+          message={result?.response?.data?.error}
+        />
+      )
+    }
+  }
+  const onDrop = useCallback((acceptedFiles) => {
+    // Do something with the accepted files (e.g., send them to the server)
+    if (acceptedFiles.length > 0) {
+      const file = acceptedFiles[0]
+      console.log('file is ', file)
+      handleFileUpload(file)
+    }
+  }, [])
+  const { getInputProps } = useDropzone({ onDrop })
 
   useEffect(() => {
     fetchUsers()
   }, [refresh])
   return (
     <div className='user-main'>
+      <input
+        // eslint-disable-next-line react/jsx-props-no-spreading
+        {...getInputProps()}
+        ref={inputRef}
+        style={{ display: 'none' }} // Hide the input element
+      />
       <div className='container-fluid'>
         <TableWrapper
           setPerPage={handleSetPerPage}
@@ -190,8 +234,8 @@ function UsersListing() {
           onPageChange={handlePageChange}
           actionButtons={[
             {
-              label: 'Export',
-              handleClick: () => {},
+              label: 'Import Users',
+              handleClick: handleImportUsers,
               classes: 'secondary-btn record-btn',
             },
             ...getActionButtonProps('Add User', () => {
