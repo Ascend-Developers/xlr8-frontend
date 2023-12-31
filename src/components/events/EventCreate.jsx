@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import Stepper from 'components/common/stepper/Stepper'
-import { Formik, useFormik } from 'formik'
+import { Form, Formik } from 'formik'
 import {
   eventFirstStepValidation,
   eventInitialValues,
@@ -12,27 +12,6 @@ import FirstStep from './formSteps/FirstStep'
 function EventCreate() {
   const [currentStep, setCurrentStep] = useState(1)
 
-  const formik = useFormik({
-    initialValues: eventInitialValues,
-    validationSchema:
-      currentStep === 1 ? eventFirstStepValidation : eventSecondStepValidation,
-    onSubmit: (values, { setSubmitting }) => {
-      // Handle submission logic here based on the current step
-      if (currentStep === 1) {
-        // Additional logic for the first step
-        console.log('Submitting first step:', values)
-      } else {
-        // Additional logic for the second step
-        console.log('Submitting second step:', values)
-      }
-
-      // Example: Move to the next step
-      setCurrentStep(currentStep + 1)
-
-      // Reset submitting state
-      setSubmitting(false)
-    },
-  })
   return (
     <div className='user-main'>
       <div className='container-fluid'>
@@ -45,9 +24,32 @@ function EventCreate() {
             />
           </div>
         </div>
-        <form onSubmit={formik.handleSubmit}>
-          {currentStep === 1 ? <FirstStep /> : <SecondStep />}
-        </form>
+        <Formik
+          initialValues={eventInitialValues}
+          validationSchema={
+            currentStep === 1
+              ? eventFirstStepValidation
+              : eventSecondStepValidation
+          }
+          onSubmit={(values, { setSubmitting }) => {
+            // Handle submission logic here based on the current step
+            if (currentStep === 1) {
+              // Additional logic for the first step
+              console.log('Submitting first step:', values)
+            } else {
+              // Additional logic for the second step
+              console.log('Submitting second step:', values)
+            }
+
+            // Example: Move to the next step
+            setCurrentStep(currentStep + 1)
+
+            // Reset submitting state
+            setSubmitting(false)
+          }}
+        >
+          <Form>{currentStep === 1 ? <FirstStep /> : <SecondStep />}</Form>
+        </Formik>
       </div>
     </div>
   )

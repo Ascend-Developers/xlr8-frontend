@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import './Stepper.scss'
 
 function Stepper({ currentStep, setCurrentStep }) {
@@ -32,6 +33,11 @@ function Stepper({ currentStep, setCurrentStep }) {
       </div>
     </div>
   )
+}
+
+Stepper.propTypes = {
+  currentStep: PropTypes.number.isRequired,
+  setCurrentStep: PropTypes.func.isRequired,
 }
 
 export default Stepper

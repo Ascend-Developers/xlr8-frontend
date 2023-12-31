@@ -6,7 +6,7 @@ import { useDropzone } from 'react-dropzone'
 import React, { useCallback } from 'react'
 
 function FirstStep() {
-  const { handleChange } = useFormikContext()
+  const formik = useFormikContext()
   const onDrop = useCallback((acceptedFiles) => {
     acceptedFiles.forEach((file) => {
       const reader = new FileReader()
@@ -28,7 +28,7 @@ function FirstStep() {
       <div className='col-md-6'>
         <Input
           name='name'
-          handleChange={handleChange}
+          handleChange={formik.handleChange}
           placeholder='Event Name'
           label='Event Name'
         />
