@@ -3,6 +3,7 @@ import {
   USERS_DELETE_ENDPOINT,
   USERS_ENDPOINT,
   USERS_STATUS_ENDPOINT,
+  USERS_UPLOAD_FILE_ENDPOINT,
 } from 'constants/EndPoints'
 import { get, post } from 'services/network'
 
@@ -22,6 +23,15 @@ export const getUsers = async (page, perPage, search) => {
 export const createUser = async (values) => {
   try {
     const response = await post(USERS_CREATE_ENDPOINT, values, true)
+    return response
+  } catch (error) {
+    console.error(error)
+    return error
+  }
+}
+export const UploadFile = async (value) => {
+  try {
+    const response = await post(USERS_UPLOAD_FILE_ENDPOINT, value, true)
     return response
   } catch (error) {
     console.error(error)
