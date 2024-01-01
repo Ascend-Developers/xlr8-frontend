@@ -58,7 +58,7 @@ function EventsListing() {
   }, [refresh])
 
   return (
-    <div className='user-main'>
+    <div className='event-main'>
       <div className='container-fluid'>
         <TableWrapper
           setPerPage={handleSetPerPage}

@@ -23,26 +23,28 @@ function SignInForm({ loginFormSubmitHandler }) {
           onSubmit={handleSubmit}
         >
           <Form>
-            <div className='input-group'>
-              <FontAwesomeIcon icon={faEnvelope} className='icon' />
-              <Field type='email' name='email' placeholder='Email' />
+            <div className='mb-4'>
+              <div className='input-group'>
+                <FontAwesomeIcon icon={faEnvelope} className='icon' />
+                <Field type='email' name='email' placeholder='Email' />
+              </div>
+              <ErrorMessage
+                name='email'
+                component='p'
+                className='error-message'
+              />
             </div>
-            <ErrorMessage
-              name='email'
-              component='div'
-              className='error-message'
-            />
-
-            <div className='input-group'>
-              <FontAwesomeIcon icon={faLock} className='icon' />
-              <Field type='password' name='password' placeholder='Password' />
+            <div className='mb-4'>
+              <div className='input-group'>
+                <FontAwesomeIcon icon={faLock} className='icon' />
+                <Field type='password' name='password' placeholder='Password' />
+              </div>
+              <ErrorMessage
+                name='password'
+                component='p'
+                className='error-message'
+              />
             </div>
-            <ErrorMessage
-              name='password'
-              component='div'
-              className='error-message'
-            />
-
             <div className='forgot-password'>
               <a href='/?reset=1'>Forgot Password?</a>
             </div>

@@ -57,4 +57,18 @@ const FIELDS = [
     label: 'Field 2',
   },
 ]
-export { userValidationSchema, userInitialValues, GENDERS, FIELDS }
+const USER_STATUS = [
+  {
+    value: 'pending',
+    label: 'Pending',
+  },
+  {
+    value: 'approved',
+    label: 'Approve',
+  },
+  {
+    value: 'rejected',
+    label: 'Reject',
+  },
+]
+export { userValidationSchema, userInitialValues, GENDERS, FIELDS, USER_STATUS }

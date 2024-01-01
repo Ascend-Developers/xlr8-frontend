@@ -40,6 +40,19 @@ function FirstStep() {
           <input {...getInputProps()} />
           <p>Drag drop some files here, or click to select files</p>
         </div>
+        <ErrorMessage className='error-text' component='p' name='photo' />
+      </div>
+      <div className='col-md-12'>
+        <Input
+          name='description'
+          handleChange={formik.handleChange}
+          placeholder='Event Description'
+          label='Event Description'
+        />
+        <ErrorMessage className='error-text' component='p' name='description' />
+      </div>
+      <div className='col-md-12'>
+        <p className='heading-sm mt-8'>Location & Time</p>
       </div>
     </div>
   )

@@ -13,7 +13,7 @@ function EventCreate() {
   const [currentStep, setCurrentStep] = useState(1)
 
   return (
-    <div className='user-main'>
+    <div className='event-main'>
       <div className='container-fluid'>
         <div className='heading-section'>
           <p>test</p>

@@ -1,0 +1,94 @@
+@import '../../../assets/variable.scss';
+
+.react-datepicker {
+  width: 340px !important;
+  background-color: $white-color !important;
+  font-size: 16px !important;
+  font-family: 'Inter' !important;
+  border-radius: 16px !important;
+  border: 0 !important;
+  box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.1);
+  padding: 30px !important;
+}
+
+.react-datepicker__month-container {
+  width: 100%;
+}
+
+.react-datepicker__navigation {
+  border-radius: 50%;
+  background: #0f0f0f;
+  opacity: 0.05;
+  width: 40px !important;
+  height: 40px !important;
+}
+
+.react-datepicker__header {
+  border-bottom: 0 !important;
+  background: #fff !important;
+}
+
+.react-datepicker__day-names {
+  margin: 12px 0 8px !important;
+}
+.react-datepicker__month {
+  margin: 0 !important;
+}
+
+.datepicker__navigation,
+.react-datepicker__day-name,
+.react-datepicker__day,
+.react-datepicker__time-name {
+  width: 40px !important;
+  height: 40px !important;
+  line-height: 40px !important;
+  margin: 0 !important;
+  border-radius: 50% !important;
+  color: #0f0f0f !important;
+}
+
+.react-datepicker-popper[data-placement^='bottom'] {
+  padding: 0 !important;
+}
+.react-datepicker__triangle {
+  display: none !important;
+}
+
+.react-datepicker__day-names > div {
+  font-weight: 600;
+  opacity: 0.65;
+}
+
+.react-datepicker__day--outside-month {
+  opacity: 0.4;
+}
+
+.react-datepicker__day:not(.react-datepicker__day--outside-month) {
+  font-weight: 600;
+  color: #6f6f6f !important;
+}
+
+.react-datepicker__day.react-datepicker__day--selected,
+.react-datepicker__day--selected,
+.react-datepicker__day--in-selecting-range,
+.react-datepicker__day--in-range,
+.react-datepicker__month-text--selected,
+.react-datepicker__month-text--in-selecting-range,
+.react-datepicker__month-text--in-range,
+.react-datepicker__quarter-text--selected,
+.react-datepicker__quarter-text--in-selecting-range,
+.react-datepicker__quarter-text--in-range,
+.react-datepicker__year-text--selected,
+.react-datepicker__year-text--in-selecting-range,
+.react-datepicker__year-text--in-range {
+  color: $white-color !important;
+}
+
+.react-datepicker__current-month {
+  font-size: 18px !important;
+}
+
+.datepicker__navigation {
+  background: #f2f2f2;
+  cursor: pointer;
+}

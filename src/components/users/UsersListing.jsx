@@ -10,6 +10,7 @@ import { ErrorMessage, Formik } from 'formik'
 import {
   FIELDS,
   GENDERS,
+  USER_STATUS,
   userInitialValues,
   userValidationSchema,
 } from 'constants/Users'
@@ -23,7 +24,7 @@ import {
   userStatusUpdate,
   userUpdate,
 } from 'containers/users/Api'
-import { Button, ButtonGroup } from 'react-bootstrap'
+import { Form } from 'react-bootstrap'
 import { toast } from 'react-toastify'
 import CustomToast from 'components/common/custom-toast/CustomToast'
 import { useDropzone } from 'react-dropzone'
@@ -319,6 +320,16 @@ function UsersListing() {
                       </p>
                     </div>
                   </th>
+                  <th scope='col'>
+                    <div className='header-text-otr'>
+                      <p
+                        className='table-name heading-xsb'
+                        aria-label='User Phone Name Column'
+                      >
+                        Status
+                      </p>
+                    </div>
+                  </th>
                   <th scope='col' className='action-column'>
                     <div className='header-text-otr'>
                       <p
@@ -351,9 +362,26 @@ function UsersListing() {
                         </p>
                       </div>
                     </td>
-                    <td>
+                    {/* <td>
                       <div className='profile-otr' title={item.userName}>
                         <div className='named-avatar'>{item.userName}</div>
+                      </div>
+                    </td> */}
+                    <td>
+                      <div className='table-text-otr'>
+                        {item?.image ? (
+                          <img
+                            className='table-picture'
+                            src={item.image}
+                            alt='user-profile'
+                            width='40px'
+                            height='40px'
+                          />
+                        ) : (
+                          <div className='profile-otr' title={item.userName}>
+                            <div className='named-avatar'>{item.userName}</div>
+                          </div>
+                        )}
                       </div>
                     </td>
                     <td>
@@ -388,81 +416,73 @@ function UsersListing() {
                       </div>
                     </td>
 
+                    <td>
+                      <div className='table-text-otr'>
+                        <Form.Select
+                          size='sm'
+                          value={item.status}
+                          onChange={(e) => {
+                            // eslint-disable-next-line no-underscore-dangle
+                            handleUpdateUserStatus(item._id, e.target.value)
+                          }}
+                        >
+                          {USER_STATUS.map((statusItem) => (
+                            <option value={statusItem.value}>
+                              {statusItem.label}
+                            </option>
+                          ))}
+                        </Form.Select>
+                      </div>
+                    </td>
+
                     <td className='action-column'>
                       <div className='table-icon-otr'>
-                        {item?.status?.toLowerCase() === 'pending' ? (
-                          <ButtonGroup>
-                            <Button
-                              variant='success'
-                              size='sm'
-                              onClick={() => {
-                                // eslint-disable-next-line no-underscore-dangle
-                                handleUpdateUserStatus(item._id, 'approved')
-                              }}
-                            >
-                              Approve
-                            </Button>
-                            <Button
-                              variant='danger'
-                              size='sm'
-                              onClick={() => {
-                                // eslint-disable-next-line no-underscore-dangle
-                                handleUpdateUserStatus(item._id, 'rejected')
-                              }}
-                            >
-                              Reject
-                            </Button>
-                          </ButtonGroup>
-                        ) : (
-                          <>
-                            <div
-                              className='icon-otr'
-                              // onClick={(e) => {
-                              //   console.log(e)
-                              // }}
-                              // onKeyDown={(e) => {
-                              //   if (e.key === 'Enter' || e.key === ' ') {
-                              //     console.log('Enter key or Spacebar pressed')
-                              //   }
-                              // }}
-                              role='button'
-                              tabIndex={0}
-                              aria-label='Edit User'
-                            >
-                              <PencilSimple
-                                className='primary-color'
-                                size={18}
-                                onClick={() => {
-                                  setSelectedUser(item)
-                                  handleOpenModal()
-                                }}
-                              />
-                            </div>
-                            <div
-                              className='icon-otr'
-                              // onClick={(e) => {
-                              //   console.log(e)
-                              // }}
-                              // onKeyDown={(e) => {
-                              //   if (e.key === 'Enter' || e.key === ' ') {
-                              //     console.log('Enter key or Spacebar pressed')
-                              //   }
-                              // }}
-                              role='button'
-                              tabIndex={0}
-                              aria-label='Delete User'
-                            >
-                              <Trash
-                                className='danger-color'
-                                size={18}
-                                onClick={() => {
-                                  setSelectedUser(item)
-                                  handleOpenDeleteUserModal()
-                                }}
-                              />
-                            </div>
-                          </>
-                        )}
+                        <div
+                          className='icon-otr'
+                          // onClick={(e) => {
+                          //   console.log(e)
+                          // }}
+                          // onKeyDown={(e) => {
+                          //   if (e.key === 'Enter' || e.key === ' ') {
+                          //     console.log('Enter key or Spacebar pressed')
+                          //   }
+                          // }}
+                          role='button'
+                          tabIndex={0}
+                          aria-label='Edit User'
+                        >
+                          <PencilSimple
+                            className='primary-color'
+                            size={18}
+                            onClick={() => {
+                              setSelectedUser(item)
+                              handleOpenModal()
+                            }}
+                          />
+                        </div>
+                        <div
+                          className='icon-otr'
+                          // onClick={(e) => {
+                          //   console.log(e)
+                          // }}
+                          // onKeyDown={(e) => {
+                          //   if (e.key === 'Enter' || e.key === ' ') {
+                          //     console.log('Enter key or Spacebar pressed')
+                          //   }
+                          // }}
+                          role='button'
+                          tabIndex={0}
+                          aria-label='Delete User'
+                        >
+                          <Trash
+                            className='danger-color'
+                            size={18}
+                            onClick={() => {
+                              setSelectedUser(item)
+                              handleOpenDeleteUserModal()
+                            }}
+                          />
+                        </div>
                       </div>
                     </td>
                   </tr>
