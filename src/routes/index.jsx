@@ -6,6 +6,7 @@ import { RESET_PASSWORD_PATH } from 'constants/RoutePaths'
 import ResetPassword from 'containers/reset-password/ResetPassword'
 import PropTypes from 'prop-types'
 import EventsPage from 'containers/events/Events'
+import EventCreatePage from 'containers/events/Create'
 import HomePage from '../containers/home/HomePage'
 import Protected from './Protected'
 
@@ -39,6 +40,14 @@ function AppRoutes({ isLoggedIn }) {
           element={
             <Protected isLoggedIn={isLoggedIn}>
               <EventsPage />
+            </Protected>
+          }
+        />
+        <Route
+          path='/events/create'
+          element={
+            <Protected isLoggedIn={isLoggedIn}>
+              <EventCreatePage />
             </Protected>
           }
         />

@@ -1,6 +1,13 @@
 @import '../../assets/variable.scss';
 
 .event-main {
+  background-color: $white-color;
+  margin-right: 22px;
+  .heading-section {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
   .table-head-content {
     display: flex;
     align-items: center;

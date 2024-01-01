@@ -5,6 +5,7 @@ import React, { useEffect, useState } from 'react'
 import { getActionButtonProps } from 'utils/common'
 import { PencilSimple, Trash } from 'phosphor-react'
 import moment from 'moment'
+import { useNavigate } from 'react-router-dom'
 
 let timeout
 function EventsListing() {
@@ -12,7 +13,7 @@ function EventsListing() {
   const [loading, setLoading] = useState(false)
   const [meta, setMeta] = useState({ ...initialMetaForTable })
   const [refresh, setRefresh] = useState(false)
-
+  const navigate = useNavigate()
   const handleRefresh = () => {
     setRefresh((pre) => !pre)
   }
@@ -49,12 +50,15 @@ function EventsListing() {
     }
     setLoading(false)
   }
+  const handleAddEvent = () => {
+    navigate('/events/create')
+  }
   useEffect(() => {
     fetchEvents()
   }, [refresh])
 
   return (
-    <div className='user-main'>
+    <div className='event-main'>
       <div className='container-fluid'>
         <TableWrapper
           setPerPage={handleSetPerPage}
@@ -64,7 +68,7 @@ function EventsListing() {
           pageSize={meta.perPage}
           currentPage={meta.page}
           onPageChange={handlePageChange}
-          actionButtons={[...getActionButtonProps('Add Event', () => {})]}
+          actionButtons={[...getActionButtonProps('Add Event', handleAddEvent)]}
         >
           {loading ? (
             <p style={{ textAlign: 'center' }}>Loading</p>
