@@ -15,7 +15,7 @@ function EventCreate() {
   return (
     <div className='event-main'>
       <div className='container-fluid'>
-        <div className='heading-section'>
+        <div className='heading-section pt-4 mb-4'>
           <p>test</p>
           <div className='events-step'>
             <Stepper

@@ -1,7 +1,10 @@
 @import '../../../assets/variable.scss';
 
+.react-datepicker-wrapper {
+  width: 100%;
+}
 .react-datepicker {
-  width: 340px !important;
+  width: 100% !important;
   background-color: $white-color !important;
   font-size: 16px !important;
   font-family: 'Inter' !important;

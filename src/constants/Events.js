@@ -12,7 +12,7 @@ const eventFirstStepValidation = yup.object().shape({
 
 const agendaSchema = yup.object().shape({
   title: yup.string().required('Title is required'),
-  date: yup.date().required('Date is required'),
+  date: yup.mixed().required('Date is required'),
   description: yup.string().required('Description is required'),
 })
 const speakerSchema = yup.object().shape({
@@ -31,11 +31,12 @@ const eventSecondStepValidation = yup.object().shape({
     .array()
     .of(speakerSchema)
     .min(1, 'Please add at least one speaker'),
+  gallery: yup.mixed().required('Required *'),
 })
 
 const eventInitialValues = {
   name: '',
-  photo: '',
+  photo: [],
   description: '',
   date_time_from: null,
   date_time_to: null,
@@ -43,10 +44,25 @@ const eventInitialValues = {
   map_url: '',
   agendas: [],
   speakers: [],
+  gallery: [],
 }
-
+const agenda = {
+  title: '',
+  date: '',
+  description: '',
+}
+const speaker = {
+  name: '',
+  designation: '',
+  photo: [],
+  topic: '',
+}
 export {
   eventFirstStepValidation,
   eventSecondStepValidation,
   eventInitialValues,
+  agenda,
+  agendaSchema,
+  speakerSchema,
+  speaker,
 }

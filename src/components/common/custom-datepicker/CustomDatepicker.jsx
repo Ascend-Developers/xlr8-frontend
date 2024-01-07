@@ -25,6 +25,7 @@ function CustomDatePicker({
 
   return (
     <DatePicker
+      width='100%'
       selected={selected}
       renderCustomHeader={({ monthDate, decreaseMonth, increaseMonth }) => (
         <div className='d-flex justify-content-between align-items-center'>
