@@ -1,18 +1,25 @@
 import * as yup from 'yup'
 
+const locationSchema = yup.object().shape({
+  longitude: yup.string(),
+  latitude: yup.string(),
+  map_url: yup.string().required('Location is required'),
+  address: yup.string(),
+})
+
 const eventFirstStepValidation = yup.object().shape({
   name: yup.string().required('Required *'),
   photo: yup.mixed().required('Required *'),
   description: yup.string().required('Required *'),
-  date_time_from: yup.date().required().nullable(),
-  date_time_to: yup.date().required().nullable(),
-  location: yup.string().required(),
-  map_url: yup.string().required(),
+  startDate: yup.date().required().nullable(),
+  endDate: yup.date().required().nullable(),
+  location: locationSchema,
 })
 
 const agendaSchema = yup.object().shape({
   title: yup.string().required('Title is required'),
-  date: yup.mixed().required('Date is required'),
+  startDate: yup.mixed().required('Date is required'),
+  endDate: yup.mixed().required('Date is required'),
   description: yup.string().required('Description is required'),
 })
 const speakerSchema = yup.object().shape({
@@ -23,10 +30,7 @@ const speakerSchema = yup.object().shape({
 })
 
 const eventSecondStepValidation = yup.object().shape({
-  agendas: yup
-    .array()
-    .of(agendaSchema)
-    .min(1, 'Please add at least one agenda'),
+  agenda: yup.array().of(agendaSchema).min(1, 'Please add at least one agenda'),
   speakers: yup
     .array()
     .of(speakerSchema)
@@ -38,17 +42,22 @@ const eventInitialValues = {
   name: '',
   photo: [],
   description: '',
-  date_time_from: null,
-  date_time_to: null,
-  location: '',
-  map_url: '',
-  agendas: [],
+  startDate: null,
+  endDate: null,
+  location: {
+    map_url: '',
+    longitude: '',
+    latitude: '',
+    address: '',
+  },
+  agenda: [],
   speakers: [],
   gallery: [],
 }
 const agenda = {
   title: '',
-  date: '',
+  startDate: '',
+  endDate: '',
   description: '',
 }
 const speaker = {

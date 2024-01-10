@@ -3,7 +3,7 @@ import Input from 'components/common/input/Input'
 import CustomModal from 'components/common/modal/CustomModal'
 import { agendaSchema } from 'constants/Events'
 import { ErrorMessage, Form, Formik } from 'formik'
-import moment from 'moment'
+// import moment from 'moment'
 import PropTypes from 'prop-types'
 
 import React from 'react'
@@ -21,11 +21,11 @@ function AgendaModal({ handleCloseModal, initialValues, formik, index }) {
         validationSchema={agendaSchema}
         onSubmit={(values, { setSubmitting }) => {
           if (index !== undefined) {
-            const currentAgendas = formik.values.agendas.slice()
+            const currentAgendas = formik.values.agenda.slice()
             currentAgendas[index] = values
-            formik.setFieldValue('agendas', currentAgendas)
+            formik.setFieldValue('agenda', currentAgendas)
           } else {
-            formik.setFieldValue('agendas', [...formik.values.agendas, values])
+            formik.setFieldValue('agenda', [...formik.values.agenda, values])
           }
           setSubmitting(false)
           handleCloseModal()
@@ -34,7 +34,7 @@ function AgendaModal({ handleCloseModal, initialValues, formik, index }) {
         {({ values, handleChange, setFieldValue }) => (
           <Form>
             <div className='row'>
-              <div className='col-md-6'>
+              <div className='col-md-12'>
                 <div className='field-wrapper'>
                   <Input
                     name='title'
@@ -51,17 +51,38 @@ function AgendaModal({ handleCloseModal, initialValues, formik, index }) {
                 </div>
               </div>
 
-              <div className='col-md-6 pt-2'>
+              <div className='col-md-6'>
                 <CustomDatePicker
-                  name='date'
+                  name='startDate'
                   label='Date'
-                  selected={values.date ? new Date(moment(values.date)) : ''}
-                  onDateChange={(date) => setFieldValue('date', date)}
+                  selected={
+                    values.startDate ? new Date(values.startDate) : null
+                  }
+                  onDateChange={(date) => setFieldValue('startDate', date)}
+                  dateFormat='MM/dd/yyyy h:mm a'
+                  showTimeSelect
                 />
+
                 <ErrorMessage
                   className='error-text'
                   component='p'
-                  name='date'
+                  name='startDate'
+                />
+              </div>
+              <div className='col-md-6'>
+                <CustomDatePicker
+                  name='endDate'
+                  label='Date'
+                  selected={values.endDate ? new Date(values.endDate) : null}
+                  onDateChange={(date) => setFieldValue('endDate', date)}
+                  dateFormat='MM/dd/yyyy h:mm a'
+                  showTimeSelect
+                />
+
+                <ErrorMessage
+                  className='error-text'
+                  component='p'
+                  name='endDate'
                 />
               </div>
               <div className='col-md-12'>

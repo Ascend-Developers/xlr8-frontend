@@ -23,3 +23,18 @@ export const createEvent = async (values) => {
     return error
   }
 }
+
+export const minioSingleFileUpload = async (file) => {
+  try {
+    const response = await post(
+      '',
+      file,
+      false,
+      'https://micro-helper.ascend.com.sa/minio/upload'
+    )
+    return response
+  } catch (error) {
+    console.error(error)
+    return error
+  }
+}

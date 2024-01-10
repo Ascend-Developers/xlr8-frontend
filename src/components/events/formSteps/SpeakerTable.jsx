@@ -2,6 +2,7 @@ import React from 'react'
 import { PencilSimple, Trash } from 'phosphor-react'
 
 import PropTypes from 'prop-types'
+import { ErrorMessage } from 'formik'
 
 function SpeakerTable({
   formik,
@@ -82,16 +83,16 @@ function SpeakerTable({
                       height='40px'
                     />
                   ) : (
-                    <div className='profile-otr' title={item.title}>
-                      <div className='named-avatar'>{item.title}</div>
+                    <div className='profile-otr' title={item.name}>
+                      <div className='named-avatar'>{item.name}</div>
                     </div>
                   )}
                 </div>
               </th>
               <td>
                 <div className='table-text-otr'>
-                  <p className='table-text-black' title={item.title}>
-                    {item.title}
+                  <p className='table-text-black' title={item.name}>
+                    {item.name}
                   </p>
                 </div>
               </td>
@@ -149,14 +150,19 @@ function SpeakerTable({
           ))}
           <tr>
             <td colSpan={5}>
-              <div className='table-text-otr d-flex justify-content-center'>
+              <div className='table-text-otr d-flex flex-column align-items-center'>
                 <button
                   type='button'
-                  className='primary-btn m'
+                  className='primary-btn mt-4 mb-2'
                   onClick={handleOpenSpeakerModal}
                 >
                   Add Speaker
                 </button>
+                <ErrorMessage
+                  className='error-text'
+                  component='p'
+                  name='speakers'
+                />
               </div>
             </td>
           </tr>

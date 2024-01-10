@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import './Stepper.scss'
 
-function Stepper({ currentStep, setCurrentStep }) {
+function Stepper({ currentStep }) {
   return (
     <div className='custom-stepper'>
       <div className={`stepper-button ${currentStep === 1 && 'active'}`}>
@@ -17,15 +17,6 @@ function Stepper({ currentStep, setCurrentStep }) {
       </div>
       <div
         className={`stepper-button ${currentStep === 2 && 'active'}`}
-        onClick={() => {
-          setCurrentStep(2)
-        }}
-        onKeyDown={(event) => {
-          // Handle keyboard events, for example, pressing Enter or Space
-          if (event.key === 'Enter' || event.key === ' ') {
-            console.log(event)
-          }
-        }}
         role='button'
         tabIndex={-1}
       >
@@ -37,7 +28,6 @@ function Stepper({ currentStep, setCurrentStep }) {
 
 Stepper.propTypes = {
   currentStep: PropTypes.number.isRequired,
-  setCurrentStep: PropTypes.func.isRequired,
 }
 
 export default Stepper

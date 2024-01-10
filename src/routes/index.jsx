@@ -51,6 +51,14 @@ function AppRoutes({ isLoggedIn }) {
             </Protected>
           }
         />
+        <Route
+          path='/events/:id/edit'
+          element={
+            <Protected isLoggedIn={isLoggedIn}>
+              <EventCreatePage />
+            </Protected>
+          }
+        />
       </Routes>
     </Router>
   )

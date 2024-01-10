@@ -1,13 +1,21 @@
-import React, { useState } from 'react'
-import { useFormikContext } from 'formik'
+/* eslint-disable react/jsx-props-no-spreading */
+import React, { useCallback, useState } from 'react'
+import { ErrorMessage, useFormikContext } from 'formik'
 
-import { PencilSimple, Trash } from 'phosphor-react'
+import { CloudArrowDown, PencilSimple, Trash } from 'phosphor-react'
 import { agenda, speaker } from 'constants/Events'
-import AgendaModal from './AgendaModal'
-import SpeakerTable from './SpeakerTable'
+import { useDropzone } from 'react-dropzone'
+import PropTypes from 'prop-types'
+import { minioSingleFileUpload } from 'containers/events/Api'
+import { toast } from 'react-toastify'
+import CustomToast from 'components/common/custom-toast/CustomToast'
+import { alertTypes } from 'constants/Common'
+import moment from 'moment'
 import SpeakerModal from './SpeakerModal'
+import SpeakerTable from './SpeakerTable'
+import AgendaModal from './AgendaModal'
 
-function SecondStep() {
+function SecondStep({ setCurrentStep }) {
   const formik = useFormikContext()
   const [agendaModal, setAgendaModal] = useState(false)
   const [agendaModalInitialValues, setAgendaModalInitialValues] =
@@ -35,6 +43,53 @@ function SecondStep() {
     setSpeakerModalInitialValues(speaker)
     setAgendaCurrentIndex(undefined)
   }
+  const handlePrevious = () => {
+    setCurrentStep(1)
+  }
+  const handleFileUpload = async (file) => {
+    const formData = new FormData()
+    formData.append('file', file, 'file')
+    formData.append('project', 'xler')
+
+    const result = await minioSingleFileUpload(formData)
+    if (result?.message) {
+      if (result?.paths)
+        formik.setFieldValue('gallery', [
+          ...formik.values.gallery,
+          result.paths,
+        ])
+
+      toast(
+        <CustomToast
+          variant={alertTypes.SUCCESS}
+          message={result?.message || 'Successfully!'}
+        />
+      )
+    } else {
+      toast(
+        <CustomToast
+          variant={alertTypes.DANGER}
+          message={result?.response?.data?.error}
+        />
+      )
+    }
+  }
+  const onDrop = useCallback(
+    (files) => {
+      if (files.length > 0) {
+        const uploadedFiles = Array.from(files)
+        uploadedFiles.forEach((file) => {
+          handleFileUpload(file)
+        })
+      }
+    },
+    [formik.values?.gallery, handleFileUpload]
+  )
+  const { getRootProps, getInputProps } = useDropzone({
+    onDrop,
+    accept: 'video/*, image/svg+xml, image/png, image/jpeg, image/gif',
+  })
+  console.log('formik is ', formik.values)
   return (
     <div className='row'>
       <div className='container-fluid'>
@@ -68,7 +123,7 @@ function SecondStep() {
                       className='table-name heading-xsb'
                       aria-label='User Name Column'
                     >
-                      Date
+                      Start Date
                     </p>
                   </div>
                 </th>
@@ -76,13 +131,12 @@ function SecondStep() {
                   <div className='header-text-otr'>
                     <p
                       className='table-name heading-xsb'
-                      aria-label='User Company Column'
+                      aria-label='User Name Column'
                     >
-                      Time
+                      End Date
                     </p>
                   </div>
                 </th>
-
                 <th scope='col' className='action-column'>
                   <div className='header-text-otr'>
                     <p
@@ -96,7 +150,7 @@ function SecondStep() {
               </tr>
             </thead>
             <tbody>
-              {formik.values.agendas?.map((item, index) => (
+              {formik.values.agenda?.map((item, index) => (
                 <tr key={item.id}>
                   <th scope='col'>
                     <div className='header-text-otr'>
@@ -110,7 +164,7 @@ function SecondStep() {
                   </th>
                   <td>
                     <div className='table-text-otr'>
-                      <p className='table-text-black' title={item.name}>
+                      <p className='table-text-black' title={item.description}>
                         {item.description}
                       </p>
                     </div>
@@ -118,16 +172,21 @@ function SecondStep() {
 
                   <td>
                     <div className='table-text-otr'>
-                      <p className='table-text-black' title={item.name}>
-                        {item.date}
-                      </p>
+                      {item.startDate && (
+                        <p className='table-text-black'>
+                          {moment(item.startDate).format('MMMM D, YYYY h:mm a')}
+                        </p>
+                      )}
                     </div>
                   </td>
+
                   <td>
                     <div className='table-text-otr'>
-                      <p className='table-text-black' title={item.company}>
-                        {item.date}
-                      </p>
+                      {item.endDate && (
+                        <p className='table-text-black'>
+                          {moment(item.endDate).format('MMMM D, YYYY h:mm a')}
+                        </p>
+                      )}
                     </div>
                   </td>
 
@@ -177,14 +236,19 @@ function SecondStep() {
               ))}
               <tr>
                 <td colSpan={5}>
-                  <div className='table-text-otr d-flex justify-content-center'>
+                  <div className='table-text-otr d-flex flex-column align-items-center'>
                     <button
                       type='button'
-                      className='primary-btn m'
+                      className='primary-btn mt-4 mb-2'
                       onClick={handleOpenAgendaModal}
                     >
                       Add Agenda
                     </button>
+                    <ErrorMessage
+                      className='error-text'
+                      component='p'
+                      name='agenda'
+                    />
                   </div>
                 </td>
               </tr>
@@ -198,6 +262,29 @@ function SecondStep() {
           setCurrentIndex={setAgendaCurrentIndex}
           handleCloseSpeakerModal={handleCloseSpeakerModal}
         />
+      </div>
+
+      <div className='col-md-12 mt-5'>
+        <p className='heading-smb'>Gallery</p>
+      </div>
+
+      <div className='col-md-12'>
+        <div {...getRootProps()}>
+          <input {...getInputProps()} />
+          <div className='image-upload-gallery'>
+            <CloudArrowDown size={32} />
+            <p>
+              Click to upload or drag and drop <br />
+              <span>SVG, PNG, JPG or GIF (max. 800x400px)</span>
+            </p>
+          </div>
+        </div>
+        <ErrorMessage className='error-text' component='p' name='gallery' />
+        <ul>
+          {formik.values?.gallery.map((file) => (
+            <li key={file}>{file}</li>
+          ))}
+        </ul>
       </div>
 
       {agendaModal && (
@@ -216,7 +303,22 @@ function SecondStep() {
           initialValues={speakerModalInitialValues}
         />
       )}
+      <div className='col-md-12 d-flex justify-content-end gap-4 mt-5 mb-4'>
+        <button
+          type='button'
+          className='secondary-btn record-btn'
+          onClick={handlePrevious}
+        >
+          Previous
+        </button>
+        <button type='submit' className='primary-btn record-btn'>
+          Create
+        </button>
+      </div>
     </div>
   )
+}
+SecondStep.propTypes = {
+  setCurrentStep: PropTypes.func.isRequired,
 }
 export default SecondStep

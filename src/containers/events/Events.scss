@@ -51,6 +51,28 @@
       }
     }
   }
+  .image-upload-gallery {
+    width: 100%;
+    height: 120px;
+    background-color: #00a0df13;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    svg {
+      margin: 0 70px 0 30px;
+      color: $action-primary;
+    }
+    p {
+      color: $action-primary;
+      margin-top: 16px;
+      text-align: center;
+      font-size: 18px;
+      span {
+        font-size: 14px;
+      }
+    }
+  }
 }
 .speaker-upload-image {
   width: 100%;

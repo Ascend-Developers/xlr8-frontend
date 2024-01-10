@@ -40,4 +40,17 @@
       To create a production bundle, use `npm run build` or `yarn build`.
     -->
   </body>
+  <script>
+    let googleMapsLoaded = false
+
+    function initGoogleMaps() {
+      googleMapsLoaded = true
+    }
+
+    // Replace YOUR_API_KEY with your actual API key
+    const script = document.createElement('script')
+    script.src = `https://maps.googleapis.com/maps/api/js?key=AIzaSyBbODegH7VECWmiZHYBTAqd4Bab5bp1bFo&callback=initGoogleMaps`
+
+    document.head.appendChild(script)
+  </script>
 </html>

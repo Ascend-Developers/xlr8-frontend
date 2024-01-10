@@ -7,6 +7,10 @@ import { Form, useFormik } from 'formik'
 import PropTypes from 'prop-types'
 import { useDropzone } from 'react-dropzone'
 import { CloudArrowUp } from 'phosphor-react'
+import { minioSingleFileUpload } from 'containers/events/Api'
+import { toast } from 'react-toastify'
+import CustomToast from 'components/common/custom-toast/CustomToast'
+import { alertTypes } from 'constants/Common'
 
 function SpeakerModal({ handleCloseModal, initialValues, formik, index }) {
   const speakerFormik = useFormik({
@@ -24,13 +28,38 @@ function SpeakerModal({ handleCloseModal, initialValues, formik, index }) {
       handleCloseModal()
     },
   })
+  const handleFileUpload = async (file) => {
+    const formData = new FormData()
+    formData.append('file', file, 'file')
+    formData.append('project', 'xler')
 
+    const result = await minioSingleFileUpload(formData)
+    if (result?.message) {
+      if (result?.paths) speakerFormik.setFieldValue('photo', [result.paths])
+
+      toast(
+        <CustomToast
+          variant={alertTypes.SUCCESS}
+          message={result?.message || 'Successfully!'}
+        />
+      )
+    } else {
+      toast(
+        <CustomToast
+          variant={alertTypes.DANGER}
+          message={result?.response?.data?.error}
+        />
+      )
+    }
+  }
   const onDrop = useCallback(
     (files) => {
-      speakerFormik.setFieldValue('photo', [
-        ...speakerFormik.values.photo,
-        ...files,
-      ])
+      if (files.length > 0) {
+        const uploadedFiles = Array.from(files)
+        uploadedFiles.forEach((file) => {
+          handleFileUpload(file)
+        })
+      }
     },
     [speakerFormik.values.photo]
   )
@@ -90,7 +119,7 @@ function SpeakerModal({ handleCloseModal, initialValues, formik, index }) {
             <p className='error-text'>{speakerFormik?.errors?.photo || ''}</p>
             <ul>
               {speakerFormik?.values?.photo?.map((file) => (
-                <li key={file.name}>{file.name}</li>
+                <li key={file}>{file}</li>
               ))}
             </ul>
           </div>

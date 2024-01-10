@@ -1,11 +1,14 @@
+/* eslint-disable react/jsx-props-no-spreading */
+// CustomDatePicker.js
+
 import React from 'react'
 import Input from 'components/common/input/Input'
-import moment from 'moment'
 import DatePicker from 'react-datepicker'
 import PropTypes from 'prop-types'
+import { CaretLeft, CaretRight } from 'phosphor-react'
+import 'react-datepicker/dist/react-datepicker.css'
 
 import './CustomDatepicker.scss'
-import { CaretLeft, CaretRight } from 'phosphor-react'
 
 function CustomDatePicker({
   name = 'Date',
@@ -13,20 +16,17 @@ function CustomDatePicker({
   selected,
   minDate = null,
   onDateChange,
+  dateFormat = 'MM/dd/yyyy',
+  showTimeSelect = false,
+
   ...rest
 }) {
-  const setDateHandler = (date) => {
-    let formattedDate = ''
-    if (date) {
-      formattedDate = moment(date).format('MM/DD/YYYY')
-    }
-    onDateChange(formattedDate)
-  }
-
   return (
     <DatePicker
       width='100%'
       selected={selected}
+      showTimeSelect={showTimeSelect} // Add this prop
+      timeFormat='HH:mm' // Specify your desired time format
       renderCustomHeader={({ monthDate, decreaseMonth, increaseMonth }) => (
         <div className='d-flex justify-content-between align-items-center'>
           <div
@@ -66,14 +66,14 @@ function CustomDatePicker({
         </div>
       )}
       minDate={minDate}
-      onChange={setDateHandler}
-      placeholderText='2022-02-01'
+      onChange={onDateChange}
+      placeholderText='MM/DD/YYYY'
+      dateFormat={dateFormat}
       customInput={
         <Input
           name={name}
           label={label !== null ? label : false}
           type='text'
-          // eslint-disable-next-line react/jsx-props-no-spreading
           {...rest}
         />
       }
@@ -83,8 +83,10 @@ function CustomDatePicker({
 
 CustomDatePicker.propTypes = {
   name: PropTypes.string,
+  showTimeSelect: PropTypes.bool,
   label: PropTypes.string,
-  selected: PropTypes.instanceOf(Date), // Assuming `selected` is a Date object
+  dateFormat: PropTypes.string,
+  selected: PropTypes.instanceOf(Date),
   minDate: PropTypes.instanceOf(Date),
   onDateChange: PropTypes.func.isRequired,
 }
@@ -94,6 +96,8 @@ CustomDatePicker.defaultProps = {
   label: 'Date',
   selected: null,
   minDate: null,
+  showTimeSelect: false,
+  dateFormat: 'MM/dd/yyyy',
 }
 
 export default CustomDatePicker

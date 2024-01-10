@@ -15,15 +15,13 @@ const navigateToLogin = () => {
 
 const hookRequestInterceptorsWithAxiosInstance = (instance) =>
   instance.interceptors.request.use(
-    // Any status code that lie within the range of 2xx cause this function to trigger
-    (config) => config
+    (config) => config,
+    (error) => Promise.reject(error)
   )
 
 const hookResponseInterceptorsWithAxiosInstance = (instance) =>
   instance.interceptors.response.use(
-    // Any status code that lie within the range of 2xx cause this function to trigger
     (response) => response,
-    // Any status codes that falls outside the range of 2xx cause this function to trigger
     (error) => {
       const { response } = error
       if (response && response.status === 401) {
@@ -34,9 +32,11 @@ const hookResponseInterceptorsWithAxiosInstance = (instance) =>
     }
   )
 
-function getAxios(tokenizeInstance, accessToken = null) {
+function getAxios(tokenizeInstance, accessToken = null, fullPath = null) {
+  const baseURL = fullPath ? '' : process.env.REACT_APP_API_URL
+
   const instance = axios.create({
-    baseURL: process.env.REACT_APP_API_URL,
+    baseURL,
   })
 
   // Hooking a request interceptor
@@ -48,8 +48,9 @@ function getAxios(tokenizeInstance, accessToken = null) {
   if (tokenizeInstance) {
     const bearer = accessToken || getAccessToken()
 
-    if (bearer)
+    if (bearer) {
       instance.defaults.headers.common.Authorization = `Bearer ${bearer}`
+    }
   }
 
   return instance
@@ -58,29 +59,29 @@ function getAxios(tokenizeInstance, accessToken = null) {
 export const get = (
   url,
   tokenizeInstance = false,
-
-  accessToken = null
+  accessToken = null,
+  fullPath = null
 ) =>
-  getAxios(tokenizeInstance, accessToken)
-    .get(url)
+  getAxios(tokenizeInstance, accessToken, fullPath)
+    .get(fullPath || url)
     .then((res) => res.data)
 
-export const post = (url, data, tokenizeInstance = false) =>
-  getAxios(tokenizeInstance)
-    .post(url, data)
+export const post = (url, data, tokenizeInstance = false, fullPath = null) =>
+  getAxios(tokenizeInstance, null, fullPath)
+    .post(fullPath || url, data)
     .then((res) => res.data)
 
 export const deleteApi = (
   url,
   tokenizeInstance = false,
-
-  accessToken = null
+  accessToken = null,
+  fullPath = null
 ) =>
-  getAxios(tokenizeInstance, accessToken)
-    .delete(url)
+  getAxios(tokenizeInstance, accessToken, fullPath)
+    .delete(fullPath || url)
     .then((res) => res.data)
 
-export const put = (url, data, tokenizeInstance = false) =>
-  getAxios(tokenizeInstance)
-    .put(url, data)
+export const put = (url, data, tokenizeInstance = false, fullPath = null) =>
+  getAxios(tokenizeInstance, null, fullPath)
+    .put(fullPath || url, data)
     .then((res) => res.data)

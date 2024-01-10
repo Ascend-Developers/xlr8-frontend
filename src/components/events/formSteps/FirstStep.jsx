@@ -8,14 +8,50 @@ import CustomDatePicker from 'components/common/custom-datepicker/CustomDatepick
 import moment from 'moment'
 import { useNavigate } from 'react-router-dom'
 import { CloudArrowUp } from 'phosphor-react'
+import MapViewWrapper from 'components/common/map-view/MapView'
+import { minioSingleFileUpload } from 'containers/events/Api'
+import { toast } from 'react-toastify'
+import CustomToast from 'components/common/custom-toast/CustomToast'
+import { alertTypes } from 'constants/Common'
 
 function FirstStep() {
   const navigate = useNavigate()
   const formik = useFormikContext()
 
+  const handleFileUpload = async (file) => {
+    const formData = new FormData()
+    formData.append('file', file, 'file')
+    formData.append('project', 'xler')
+
+    const result = await minioSingleFileUpload(formData)
+    if (result?.message) {
+      if (result?.paths)
+        formik.setFieldValue('photo', [...formik.values.photo, result.paths])
+
+      toast(
+        <CustomToast
+          variant={alertTypes.SUCCESS}
+          message={result?.message || 'Successfully!'}
+        />
+      )
+    } else {
+      toast(
+        <CustomToast
+          variant={alertTypes.DANGER}
+          message={result?.response?.data?.error}
+        />
+      )
+    }
+  }
+
   const onDrop = useCallback(
     (files) => {
-      formik.setFieldValue('photo', [...formik.values.photo, ...files])
+      if (files.length > 0) {
+        const uploadedFiles = Array.from(files)
+        uploadedFiles.forEach((file) => {
+          handleFileUpload(file)
+        })
+      }
     },
     [formik.values?.photo]
   )
@@ -54,7 +90,7 @@ function FirstStep() {
         <ErrorMessage className='error-text' component='p' name='photo' />
         <ul>
           {formik.values?.photo.map((file) => (
-            <li key={file.name}>{file.name}</li>
+            <li key={file}>{file}</li>
           ))}
         </ul>
       </div>
@@ -71,61 +107,61 @@ function FirstStep() {
         <p className='heading-lg'>Location & Time</p>
       </div>
 
-      <div className='col-md-2'>
+      <div className='col-md-4'>
         <CustomDatePicker
-          name='date_time_from'
+          name='startDate'
           label='Date From'
           selected={
-            formik.values.date_time_from
-              ? new Date(moment(formik.values.date_time_from))
+            formik.values.startDate
+              ? new Date(moment(formik.values.startDate))
               : ''
           }
-          onDateChange={(date) => formik.setFieldValue('date_time_from', date)}
+          onDateChange={(date) => formik.setFieldValue('startDate', date)}
         />
-        <ErrorMessage
-          className='error-text'
-          component='p'
-          name='date_time_from'
-        />
+        <ErrorMessage className='error-text' component='p' name='startDate' />
       </div>
-      <div className='col-md-3'>
+      <div className='col-md-4'>
         <CustomDatePicker
-          name='date_time_to'
+          name='endDate'
           label='Date To'
           selected={
-            formik.values.date_time_to
-              ? new Date(moment(formik.values.date_time_to))
-              : ''
+            formik.values.endDate ? new Date(moment(formik.values.endDate)) : ''
           }
-          onDateChange={(date) => formik.setFieldValue('date_time_to', date)}
+          onDateChange={(date) => formik.setFieldValue('endDate', date)}
+        />
+        <ErrorMessage className='error-text' component='p' name='endDate' />
+      </div>
+      <div className='col-md-4'>
+        <Input
+          name='location.address'
+          handleChange={formik.handleChange}
+          placeholder='Address'
+          label='Address'
         />
         <ErrorMessage
           className='error-text'
           component='p'
-          name='date_time_to'
+          name='location.address'
         />
       </div>
-      <div className='col-md-6' />
-      <div className='col-md-2'>
-        <Input
-          name='location'
-          handleChange={formik.handleChange}
-          placeholder='Location'
+      <div className='col-md-12'>
+        <MapViewWrapper
+          value={formik.values?.location?.map_url || ''}
+          name='location.map_url'
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
           label='Location'
+          placeholder='Google Map'
+          formik={formik}
         />
-        <ErrorMessage className='error-text' component='p' name='location' />
-      </div>
-      <div className='col-md-5'>
-        <Input
-          name='map_url'
-          handleChange={formik.handleChange}
-          placeholder='URL'
-          label='Google Map Pin Url'
+        <ErrorMessage
+          className='error-text'
+          component='p'
+          name='location.map_url'
         />
-        <ErrorMessage className='error-text' component='p' name='map_url' />
       </div>
 
-      <div className='col-md-12 d-flex justify-content-end gap-4 mt-2 mb-4'>
+      <div className='col-md-12 d-flex justify-content-end gap-4 mt-5 mb-4'>
         <button
           type='button'
           className='secondary-btn record-btn'
