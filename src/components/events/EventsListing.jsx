@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 import TableWrapper from 'components/common/table-wrapper/TableWrapper'
 import { DEBOUNCE_DELAY, initialMetaForTable } from 'constants/Common'
 import { getEvents } from 'containers/events/Api'
@@ -194,36 +195,15 @@ function EventsListing() {
 
                     <td className='action-column'>
                       <div className='table-icon-otr'>
-                        <div
-                          className='icon-otr'
-                          onClick={(e) => {
-                            console.log(e)
-                          }}
-                          onKeyDown={(e) => {
-                            if (e.key === 'Enter' || e.key === ' ') {
-                              console.log('Enter key or Spacebar pressed')
-                            }
-                          }}
-                          role='button'
-                          tabIndex={0}
-                          aria-label='Edit User'
-                        >
-                          <PencilSimple size={18} onClick={() => {}} />
+                        <div className='icon-otr' aria-label='Edit User'>
+                          <PencilSimple
+                            size={18}
+                            onClick={() => {
+                              navigate(`/events/${item._id}/edit`)
+                            }}
+                          />
                         </div>
-                        <div
-                          className='icon-otr'
-                          onClick={(e) => {
-                            console.log(e)
-                          }}
-                          onKeyDown={(e) => {
-                            if (e.key === 'Enter' || e.key === ' ') {
-                              console.log('Enter key or Spacebar pressed')
-                            }
-                          }}
-                          role='button'
-                          tabIndex={0}
-                          aria-label='Delete User'
-                        >
+                        <div className='icon-otr' aria-label='Delete User'>
                           <Trash size={18} />
                         </div>
                       </div>

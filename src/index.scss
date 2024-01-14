@@ -125,6 +125,58 @@ a {
     background: #adadad;
   }
 }
+.primary-btn-sm {
+  font-size: $font-size-xs;
+  line-height: $line-height-xs;
+  font-family: 'Open Sans';
+  font-weight: 600;
+  color: $gray-color4;
+  background-color: $action-primary;
+  border: 1px solid transparent;
+  padding: 4px 12px;
+  border-radius: 0px;
+  transition: 0.3s;
+  cursor: pointer;
+  white-space: nowrap;
+
+  &:not(:disabled) {
+    &:hover {
+      background-color: transparent;
+      border: 1px solid $action-primary;
+      color: $gray-color4;
+    }
+  }
+
+  &:disabled {
+    background: #adadad;
+  }
+}
+.action-btn-sm {
+  font-size: $font-size-xs;
+  line-height: $line-height-xs;
+  font-family: 'Open Sans';
+  font-weight: 600;
+  color: $white-color;
+  background-color: $action-background;
+  border: 1px solid transparent;
+  padding: 4px 12px;
+  border-radius: 0px;
+  transition: 0.3s;
+  cursor: pointer;
+  white-space: nowrap;
+
+  &:not(:disabled) {
+    &:hover {
+      background-color: transparent;
+      border: 1px solid $action-background;
+      color: $gray-color4;
+    }
+  }
+
+  &:disabled {
+    background: #adadad;
+  }
+}
 .secondary-btn {
   font-size: $font-size-sm;
   line-height: $line-height-sm;

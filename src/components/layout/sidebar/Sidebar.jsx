@@ -39,6 +39,12 @@ function Sidebar({ logoutHandler }) {
             <span className='heading-smb'>Events</span>
           </p>
         </NavLink>
+        <NavLink to='/notifications'>
+          <p className='menu-linkk'>
+            <House size={24} className='menu-linkk-icon' />
+            <span className='heading-smb'>Notifications</span>
+          </p>
+        </NavLink>
       </Accordion>
       <div
         role='button'
