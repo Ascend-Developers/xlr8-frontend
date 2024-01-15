@@ -1,12 +1,19 @@
 /* eslint-disable no-underscore-dangle */
 import TableWrapper from 'components/common/table-wrapper/TableWrapper'
-import { DEBOUNCE_DELAY, initialMetaForTable } from 'constants/Common'
-import { getEvents } from 'containers/events/Api'
+import {
+  DEBOUNCE_DELAY,
+  alertTypes,
+  initialMetaForTable,
+} from 'constants/Common'
+import { deleteEvent, getEvents } from 'containers/events/Api'
 import React, { useEffect, useState } from 'react'
 import { getActionButtonProps } from 'utils/common'
 import { PencilSimple, Trash } from 'phosphor-react'
 import moment from 'moment'
 import { useNavigate } from 'react-router-dom'
+import { toast } from 'react-toastify'
+import CustomToast from 'components/common/custom-toast/CustomToast'
+import EventDelete from './EventDeleteModal'
 
 let timeout
 function EventsListing() {
@@ -14,6 +21,10 @@ function EventsListing() {
   const [loading, setLoading] = useState(false)
   const [meta, setMeta] = useState({ ...initialMetaForTable })
   const [refresh, setRefresh] = useState(false)
+  const [isEventDeleteModalVisible, setIsEventDeleteModalVisible] =
+    useState(false)
+  const [selectedEvent, setSelectedEvent] = useState()
+
   const navigate = useNavigate()
   const handleRefresh = () => {
     setRefresh((pre) => !pre)
@@ -54,6 +65,36 @@ function EventsListing() {
   const handleAddEvent = () => {
     navigate('/events/create')
   }
+
+  const handleCloseEventDeleteModal = () => {
+    setIsEventDeleteModalVisible(false)
+    setSelectedEvent()
+  }
+  const handleOpenDeleteEventModal = () => {
+    setIsEventDeleteModalVisible(true)
+  }
+  const handleDeleteEvent = async () => {
+    // eslint-disable-next-line no-underscore-dangle
+    const result = await deleteEvent(selectedEvent._id)
+    if (result?.status === 200) {
+      toast(
+        <CustomToast
+          variant={alertTypes.SUCCESS}
+          message={result?.statusText || 'Event Deleted Successfully!'}
+        />
+      )
+      handleRefresh()
+      handleCloseEventDeleteModal()
+    } else {
+      toast(
+        <CustomToast
+          variant={alertTypes.DANGER}
+          message={result?.response?.data?.error}
+        />
+      )
+    }
+  }
+
   useEffect(() => {
     fetchEvents()
   }, [refresh])
@@ -198,13 +239,18 @@ function EventsListing() {
                         <div className='icon-otr' aria-label='Edit User'>
                           <PencilSimple
                             size={18}
+                            className='primary-color'
                             onClick={() => {
                               navigate(`/events/${item._id}/edit`)
                             }}
                           />
                         </div>
                         <div className='icon-otr' aria-label='Delete User'>
-                          <Trash size={18} />
+                          <Trash
+                            size={18}
+                            className='danger-color'
+                            onClick={handleOpenDeleteEventModal}
+                          />
                         </div>
                       </div>
                     </td>
@@ -215,6 +261,12 @@ function EventsListing() {
           )}
         </TableWrapper>
       </div>
+      {isEventDeleteModalVisible && (
+        <EventDelete
+          handleDeleteUser={handleDeleteEvent}
+          handleCloseModal={handleCloseEventDeleteModal}
+        />
+      )}
     </div>
   )
 }

@@ -1,5 +1,5 @@
 /* eslint-disable prefer-destructuring */
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Stepper from 'components/common/stepper/Stepper'
 import { Form, Formik } from 'formik'
 import {
@@ -8,16 +8,18 @@ import {
   eventSecondStepValidation,
 } from 'constants/Events'
 // import { createEvent } from 'containers/events/Api'
-import { createEvent } from 'containers/events/Api'
+import { createEvent, showEvent, updateEvent } from 'containers/events/Api'
 import { toast } from 'react-toastify'
 import CustomToast from 'components/common/custom-toast/CustomToast'
 import { alertTypes } from 'constants/Common'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import FirstStep from './formSteps/FirstStep'
 import SecondStep from './formSteps/SecondStep'
 
 function EventCreate() {
+  const { id } = useParams()
   const [currentStep, setCurrentStep] = useState(1)
+  const [initialValues, setInitialValues] = useState(eventInitialValues)
   const navigate = useNavigate()
   const handleCreateEvent = async (values) => {
     const mapUrl = values.location.map_url
@@ -34,7 +36,10 @@ function EventCreate() {
       location: { ...values.location, latitude, longitude },
       gallery: values.gallery.map((item) => ({ imageUrl: '', vidUrl: item })),
     }
-    const result = await createEvent(payload)
+    let result
+    if (id) {
+      result = await updateEvent(payload, id)
+    } else result = await createEvent(payload)
     if (result?.status === 200) {
       toast(
         <CustomToast
@@ -52,22 +57,38 @@ function EventCreate() {
       )
     }
   }
+  const fetchEvent = async () => {
+    const result = await showEvent(id)
+    if (result?.status === 200 && result?.Event) {
+      const { Event } = result
+      setInitialValues({
+        ...Event,
+        gallery: Event.gallery?.map((item) => item.vidUrl) || Event.gallery,
+      })
+    }
+  }
+  useEffect(() => {
+    if (id) {
+      fetchEvent()
+    }
+  }, [id])
   return (
     <div className='event-main'>
       <div className='container-fluid'>
         <div className='heading-section pt-4 mb-4'>
-          <p>Event Create</p>
+          <p>Event {id ? 'Edit' : 'Create'}</p>
           <div className='events-step'>
             <Stepper currentStep={currentStep} />
           </div>
         </div>
         <Formik
-          initialValues={eventInitialValues}
+          initialValues={initialValues}
           validationSchema={
             currentStep === 1
               ? eventFirstStepValidation
               : eventSecondStepValidation
           }
+          enableReinitialize
           onSubmit={(values, { setSubmitting }) => {
             if (currentStep === 1) {
               setCurrentStep(currentStep + 1)
@@ -81,7 +102,7 @@ function EventCreate() {
             {currentStep === 1 ? (
               <FirstStep />
             ) : (
-              <SecondStep setCurrentStep={setCurrentStep} />
+              <SecondStep setCurrentStep={setCurrentStep} id={id} />
             )}
           </Form>
         </Formik>

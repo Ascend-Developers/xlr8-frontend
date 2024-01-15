@@ -35,7 +35,7 @@ function SpeakerModal({ handleCloseModal, initialValues, formik, index }) {
 
     const result = await minioSingleFileUpload(formData)
     if (result?.message) {
-      if (result?.paths) speakerFormik.setFieldValue('photo', [result.paths])
+      if (result?.paths) speakerFormik.setFieldValue('image', result.paths)
 
       toast(
         <CustomToast
@@ -116,11 +116,13 @@ function SpeakerModal({ handleCloseModal, initialValues, formik, index }) {
                 <p>Chose Photo</p>
               </div>
             </div>
-            <p className='error-text'>{speakerFormik?.errors?.photo || ''}</p>
+            <p className='error-text'>{speakerFormik?.errors?.image || ''}</p>
             <ul>
-              {speakerFormik?.values?.photo?.map((file) => (
-                <li key={file}>{file}</li>
-              ))}
+              {speakerFormik?.values?.image && (
+                <li key={speakerFormik.values.image}>
+                  {speakerFormik.values.image}
+                </li>
+              )}
             </ul>
           </div>
           <div className='col-md-6'>

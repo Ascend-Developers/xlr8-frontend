@@ -9,7 +9,7 @@ const locationSchema = yup.object().shape({
 
 const eventFirstStepValidation = yup.object().shape({
   name: yup.string().required('Required *'),
-  photo: yup.mixed().required('Required *'),
+  photo: yup.mixed(),
   description: yup.string().required('Required *'),
   startDate: yup.date().required().nullable(),
   endDate: yup.date().required().nullable(),
@@ -25,7 +25,7 @@ const agendaSchema = yup.object().shape({
 const speakerSchema = yup.object().shape({
   name: yup.string().required('Name is required'),
   designation: yup.string().required('Designation is required'),
-  photo: yup.mixed().required('Photo is required'),
+  image: yup.mixed().required('Photo is required'),
   topic: yup.string().required('Topic is required'),
 })
 
@@ -63,7 +63,7 @@ const agenda = {
 const speaker = {
   name: '',
   designation: '',
-  photo: [],
+  image: '',
   topic: '',
 }
 export {

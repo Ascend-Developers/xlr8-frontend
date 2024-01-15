@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 /* eslint-disable react/jsx-props-no-spreading */
 import React, { useCallback, useState } from 'react'
 import { ErrorMessage, useFormikContext } from 'formik'
@@ -15,7 +16,7 @@ import SpeakerModal from './SpeakerModal'
 import SpeakerTable from './SpeakerTable'
 import AgendaModal from './AgendaModal'
 
-function SecondStep({ setCurrentStep }) {
+function SecondStep({ setCurrentStep, id }) {
   const formik = useFormikContext()
   const [agendaModal, setAgendaModal] = useState(false)
   const [agendaModalInitialValues, setAgendaModalInitialValues] =
@@ -89,7 +90,6 @@ function SecondStep({ setCurrentStep }) {
     onDrop,
     accept: 'video/*, image/svg+xml, image/png, image/jpeg, image/gif',
   })
-  console.log('formik is ', formik.values)
   return (
     <div className='row'>
       <div className='container-fluid'>
@@ -151,7 +151,7 @@ function SecondStep({ setCurrentStep }) {
             </thead>
             <tbody>
               {formik.values.agenda?.map((item, index) => (
-                <tr key={item.id}>
+                <tr key={item._id}>
                   <th scope='col'>
                     <div className='header-text-otr'>
                       <p
@@ -194,14 +194,6 @@ function SecondStep({ setCurrentStep }) {
                     <div className='table-icon-otr'>
                       <div
                         className='icon-otr'
-                        // onClick={(e) => {
-                        //   console.log(e)
-                        // }}
-                        // onKeyDown={(e) => {
-                        //   if (e.key === 'Enter' || e.key === ' ') {
-                        //     console.log('Enter key or Spacebar pressed')
-                        //   }
-                        // }}
                         role='button'
                         tabIndex={0}
                         aria-label='Edit User'
@@ -226,7 +218,9 @@ function SecondStep({ setCurrentStep }) {
                           className='danger-color'
                           size={18}
                           onClick={() => {
-                            handleCloseAgendaModal()
+                            const updatedAgenda = [...formik.values.agenda]
+                            updatedAgenda.splice(index, 1) // Remove the item at the specified index
+                            formik.setFieldValue('agenda', updatedAgenda)
                           }}
                         />
                       </div>
@@ -255,6 +249,8 @@ function SecondStep({ setCurrentStep }) {
             </tbody>
           </table>
         </div>
+      </div>
+      <div className='container-fluid'>
         <SpeakerTable
           formik={formik}
           handleOpenSpeakerModal={handleOpenSpeakerModal}
@@ -263,7 +259,6 @@ function SecondStep({ setCurrentStep }) {
           handleCloseSpeakerModal={handleCloseSpeakerModal}
         />
       </div>
-
       <div className='col-md-12 mt-5'>
         <p className='heading-smb'>Gallery</p>
       </div>
@@ -312,7 +307,7 @@ function SecondStep({ setCurrentStep }) {
           Previous
         </button>
         <button type='submit' className='primary-btn record-btn'>
-          Create
+          {id ? 'Update' : 'Create'}
         </button>
       </div>
     </div>
@@ -320,5 +315,6 @@ function SecondStep({ setCurrentStep }) {
 }
 SecondStep.propTypes = {
   setCurrentStep: PropTypes.func.isRequired,
+  id: PropTypes.string.isRequired,
 }
 export default SecondStep

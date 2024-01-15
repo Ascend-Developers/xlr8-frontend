@@ -1,8 +1,9 @@
+/* eslint-disable no-underscore-dangle */
 import React from 'react'
 import { PencilSimple, Trash } from 'phosphor-react'
 
 import PropTypes from 'prop-types'
-import { ErrorMessage } from 'formik'
+import { isArray } from 'lodash'
 
 function SpeakerTable({
   formik,
@@ -71,43 +72,49 @@ function SpeakerTable({
         </thead>
         <tbody>
           {formik.values.speakers?.map((item, index) => (
-            <tr key={item.id}>
+            <tr key={`${item._id}image`}>
               <th scope='col'>
                 <div className='table-text-otr'>
-                  {item?.photo ? (
+                  {item?.image ? (
                     <img
                       className='table-picture'
-                      src={item.photo}
+                      src={item.image}
                       alt='user-profile'
                       width='40px'
                       height='40px'
                     />
                   ) : (
-                    <div className='profile-otr' title={item.name}>
-                      <div className='named-avatar'>{item.name}</div>
+                    <div className='profile-otr' title={item.name?.toString()}>
+                      <div className='named-avatar'>{item?.name || '-'}</div>
                     </div>
                   )}
                 </div>
               </th>
               <td>
                 <div className='table-text-otr'>
-                  <p className='table-text-black' title={item.name}>
-                    {item.name}
+                  <p className='table-text-black' title={item.name?.toString()}>
+                    {item?.name || '-'}
                   </p>
                 </div>
               </td>
 
               <td>
                 <div className='table-text-otr'>
-                  <p className='table-text-black' title={item.designation}>
-                    {item.designation}
+                  <p
+                    className='table-text-black'
+                    title={item.designation?.toString()}
+                  >
+                    {item?.designation || '-'}
                   </p>
                 </div>
               </td>
               <td>
                 <div className='table-text-otr'>
-                  <p className='table-text-black' title={item.topic}>
-                    {item.topic}
+                  <p
+                    className='table-text-black'
+                    title={item.topic?.toString()}
+                  >
+                    {item?.topic || '-'}
                   </p>
                 </div>
               </td>
@@ -140,6 +147,9 @@ function SpeakerTable({
                       className='danger-color'
                       size={18}
                       onClick={() => {
+                        const updatedAgenda = [...formik.values.speakers]
+                        updatedAgenda.splice(index, 1) // Remove the item at the specified index
+                        formik.setFieldValue('speakers', updatedAgenda)
                         handleCloseSpeakerModal()
                       }}
                     />
@@ -158,11 +168,10 @@ function SpeakerTable({
                 >
                   Add Speaker
                 </button>
-                <ErrorMessage
-                  className='error-text'
-                  component='p'
-                  name='speakers'
-                />
+                <p className='error-text'>
+                  {!isArray(formik?.errors?.speakers) &&
+                    formik?.errors?.speakers}
+                </p>
               </div>
             </td>
           </tr>

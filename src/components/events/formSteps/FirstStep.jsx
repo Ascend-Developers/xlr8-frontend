@@ -26,7 +26,10 @@ function FirstStep() {
     const result = await minioSingleFileUpload(formData)
     if (result?.message) {
       if (result?.paths)
-        formik.setFieldValue('photo', [...formik.values.photo, result.paths])
+        formik.setFieldValue('photo', [
+          ...(formik.values?.photo || []),
+          result.paths,
+        ])
 
       toast(
         <CustomToast
@@ -64,10 +67,12 @@ function FirstStep() {
   const handleCancel = () => {
     navigate('/events')
   }
+  console.log('formik errors ', formik.errors)
   return (
     <div className='row'>
       <div className='col-md-6'>
         <Input
+          value={formik.values.name}
           name='name'
           handleChange={formik.handleChange}
           placeholder='Event Name'
@@ -87,9 +92,10 @@ function FirstStep() {
             </p>
           </div>
         </div>
-        <ErrorMessage className='error-text' component='p' name='photo' />
+        {/* <ErrorMessage className='error-text' component='p' name='photo' /> */}
+        <p className='error-text'>{formik.errors?.photo}</p>
         <ul>
-          {formik.values?.photo.map((file) => (
+          {formik.values?.photo?.map((file) => (
             <li key={file}>{file}</li>
           ))}
         </ul>
@@ -97,6 +103,7 @@ function FirstStep() {
       <div className='col-md-12'>
         <Input
           name='description'
+          value={formik.values.description}
           handleChange={formik.handleChange}
           placeholder='Event Description'
           label='Event Description'
@@ -134,6 +141,7 @@ function FirstStep() {
       <div className='col-md-4'>
         <Input
           name='location.address'
+          value={formik.values.location.address}
           handleChange={formik.handleChange}
           placeholder='Address'
           label='Address'
