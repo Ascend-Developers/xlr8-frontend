@@ -2,6 +2,7 @@ import {
   USERS_CREATE_ENDPOINT,
   USERS_DELETE_ENDPOINT,
   USERS_ENDPOINT,
+  USERS_SHOW_ENDPOINT,
   USERS_STATUS_ENDPOINT,
   USERS_UPLOAD_FILE_ENDPOINT,
 } from 'constants/EndPoints'
@@ -13,6 +14,15 @@ export const getUsers = async (page, perPage, search) => {
       `${USERS_ENDPOINT}?perPage=${perPage}&page=${page}&search=${search}`,
       true
     )
+    return response
+  } catch (error) {
+    console.error(error)
+    return error
+  }
+}
+export const showUser = async (id) => {
+  try {
+    const response = await get(`${USERS_SHOW_ENDPOINT}/${id}`, true)
     return response
   } catch (error) {
     console.error(error)

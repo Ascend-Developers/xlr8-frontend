@@ -19,13 +19,12 @@
     margin-bottom: 100px;
   }
 }
-
 .signin-form {
-  width: 500px;
   padding: 20px;
   border-radius: 8px;
   background-color: transparent;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  width: 385px;
 
   h2 {
     text-align: center;
@@ -33,7 +32,6 @@
 
   .input-group {
     position: relative;
-    // margin-bottom: 15px;
 
     .icon {
       position: absolute;
@@ -75,5 +73,11 @@
     &:hover {
       background-color: #0056b3;
     }
+  }
+
+  /* Media Query for large screens */
+  @media (min-width: 769px) {
+    width: 500px;
+    margin: 0 auto; /* Center the form horizontally on larger screens if needed */
   }
 }

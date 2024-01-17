@@ -17,7 +17,7 @@ function SignIn() {
   const query = useQuery()
   const navigate = useNavigate()
   const shouldResetPassword = query.get('reset')
-
+  const eventsAttended = query.get('eventsattended')
   const loginFormSubmitHandler = async (values, setSubmitting) => {
     setSubmitting(true)
     try {
@@ -51,7 +51,9 @@ function SignIn() {
   }
   useEffect(() => {
     if (getAccessToken()) {
-      navigate('/users')
+      if (eventsAttended) {
+        navigate(`/eventsattended/${eventsAttended}`)
+      } else navigate('/users')
     }
   }, [])
   return (

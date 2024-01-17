@@ -8,6 +8,7 @@ import PropTypes from 'prop-types'
 import EventsPage from 'containers/events/Events'
 import EventCreatePage from 'containers/events/Create'
 import Notifications from 'containers/notifications/Notifications'
+import EventsAttendedPage from 'containers/eventsAttended/EventsAttendedPage'
 import HomePage from '../containers/home/HomePage'
 import Protected from './Protected'
 
@@ -65,6 +66,14 @@ function AppRoutes({ isLoggedIn }) {
           element={
             <Protected isLoggedIn={isLoggedIn}>
               <Notifications />
+            </Protected>
+          }
+        />
+        <Route
+          path='/eventsattended/:id'
+          element={
+            <Protected isLoggedIn={isLoggedIn}>
+              <EventsAttendedPage />
             </Protected>
           }
         />

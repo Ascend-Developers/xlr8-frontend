@@ -1,0 +1,13 @@
+.center-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh; /* Set to 100% of the viewport height */
+}
+
+.custom-lottie {
+  width: 200px;
+  height: 200px;
+  /* Add any other styling as needed */
+}
