@@ -5,7 +5,7 @@ import animationData from 'assets/json/tickAnimation.json'
 import crossAnimationData from 'assets/json/crossAnimation.json'
 import loadingAnimationData from 'assets/json/loading.json'
 import './EventsAttended.scss'
-import { showUser } from 'containers/users/Api'
+import { showUserStatus } from 'containers/users/Api'
 import { useParams } from 'react-router-dom'
 
 function EventsAttendedPage() {
@@ -13,7 +13,7 @@ function EventsAttendedPage() {
   const [approved, setApproved] = useState('')
   const [user, setUser] = useState()
   const fetchUserStatus = async () => {
-    const result = await showUser(id)
+    const result = await showUserStatus(id)
     if (result?.status === 200) {
       if (result?.User?.status) {
         setApproved(result.User.status.toLowerCase())
