@@ -7,10 +7,23 @@ import {
   removeUserInfoFromStorage,
 } from 'utils/common'
 
-const navigateToLogin = () => {
+const getIdFromUrl = () => {
+  const urlPath = window.location.pathname
+  const pathSegments = urlPath.split('/').filter((segment) => segment) // Remove empty segments
+
+  if (pathSegments.length > 1 && pathSegments[0] === 'eventsattended') {
+    return pathSegments[1]
+  }
+
+  return null
+}
+
+const navigateToLogin = (id) => {
   removeAccessToken()
   removeUserInfoFromStorage()
-  window.location.href = LOGIN_PATH
+  if (id) {
+    window.location.href = `/?eventsattended=${id}`
+  } else window.location.href = LOGIN_PATH
 }
 
 const hookRequestInterceptorsWithAxiosInstance = (instance) =>
@@ -25,8 +38,8 @@ const hookResponseInterceptorsWithAxiosInstance = (instance) =>
     (error) => {
       const { response } = error
       if (response && response.status === 401) {
-        // Handle 401 unauthorized error, e.g., redirect to login route
-        navigateToLogin()
+        const id = getIdFromUrl()
+        navigateToLogin(id)
       }
       return Promise.reject(error)
     }
