@@ -18,7 +18,11 @@ function EventsAttendedPage() {
       if (result?.User?.status) {
         setApproved(result.User.status.toLowerCase())
         setUser(result.User)
+      } else {
+        setApproved('not-approved')
       }
+    } else {
+      setApproved('not-approved')
     }
   }
   useEffect(() => {
@@ -44,8 +48,7 @@ function EventsAttendedPage() {
               ? animationData
               : crossAnimationData
         }
-        loop
-        autoplay
+        loop={false}
         className='custom-lottie' // Apply your CSS class
       />
       {approved && (
