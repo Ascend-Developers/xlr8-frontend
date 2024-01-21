@@ -37,7 +37,7 @@ function EventsAttendedPage() {
         {!approved
           ? 'Loading'
           : approved === 'approved'
-            ? 'Approved'
+            ? 'Attended'
             : 'Not Approved'}
       </p>
       <Lottie
