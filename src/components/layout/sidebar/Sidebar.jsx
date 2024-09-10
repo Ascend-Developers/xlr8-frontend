@@ -5,7 +5,7 @@ import { NavLink } from 'react-router-dom'
 import { House } from 'phosphor-react'
 import { Accordion } from 'react-bootstrap'
 import PropTypes from 'prop-types'
-import Logo from '../../../assets/images/Logo.png'
+import Logo from '../../../assets/images/paj-logo.png'
 
 import './Sidebar.scss'
 
@@ -16,7 +16,7 @@ function Sidebar({ logoutHandler }) {
         <div className='logo-otr'>
           <p>
             {/* <MiniLogo /> */}
-            <img src={Logo} alt='logo' width='100px' height='100%' />
+            <img src={Logo} alt='logo' width='170px' height='100%' />
           </p>
         </div>
       </div>
