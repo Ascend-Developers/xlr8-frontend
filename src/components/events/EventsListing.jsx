@@ -75,6 +75,7 @@ function EventsListing() {
   }
   const handleDeleteEvent = async () => {
     // eslint-disable-next-line no-underscore-dangle
+    console.log(selectedEvent)
     const result = await deleteEvent(selectedEvent._id)
     if (result?.status === 200) {
       toast(
@@ -249,7 +250,10 @@ function EventsListing() {
                           <Trash
                             size={18}
                             className='danger-color'
-                            onClick={handleOpenDeleteEventModal}
+                            onClick={() => {
+                              setSelectedEvent(item)
+                              handleOpenDeleteEventModal()
+                            }}
                           />
                         </div>
                       </div>

@@ -276,7 +276,7 @@ function SecondStep({ setCurrentStep, id }) {
         </div>
         <ErrorMessage className='error-text' component='p' name='gallery' />
         <ul>
-          {formik.values?.gallery.map((file) => (
+          {formik.values?.gallery?.map((file) => (
             <li key={file}>{file}</li>
           ))}
         </ul>

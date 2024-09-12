@@ -1,6 +1,6 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import Input from 'components/common/input/Input'
-import { ErrorMessage, useFormikContext } from 'formik'
+import { ErrorMessage, Field, useFormikContext } from 'formik'
 import { useDropzone } from 'react-dropzone'
 
 import React, { useCallback } from 'react'
@@ -141,7 +141,7 @@ function FirstStep() {
       <div className='col-md-4'>
         <Input
           name='location.address'
-          value={formik.values.location.address}
+          value={formik.values.location?.address}
           handleChange={formik.handleChange}
           placeholder='Address'
           label='Address'
@@ -151,6 +151,15 @@ function FirstStep() {
           component='p'
           name='location.address'
         />
+      </div>
+      <div style={{ display: 'flex', marginTop: '4px' }}>
+        <Field
+          name='separatedByDays'
+          style={{ marginRight: '6px', height: '26px' }}
+          checked={formik.values.separatedByDays}
+          type='checkbox'
+        />
+        <p>Events seperated by days</p>
       </div>
       <div className='col-md-12'>
         <MapViewWrapper

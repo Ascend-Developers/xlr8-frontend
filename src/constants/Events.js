@@ -13,6 +13,7 @@ const eventFirstStepValidation = yup.object().shape({
   description: yup.string().required('Required *'),
   startDate: yup.date().required().nullable(),
   endDate: yup.date().required().nullable(),
+  separatedByDays: yup.boolean().required().nullable(),
   location: locationSchema,
 })
 
@@ -44,6 +45,7 @@ const eventInitialValues = {
   description: '',
   startDate: null,
   endDate: null,
+  separatedByDays: false,
   location: {
     map_url: '',
     longitude: '',
