@@ -11,9 +11,10 @@ const eventFirstStepValidation = yup.object().shape({
   name: yup.string().required('Required *'),
   photo: yup.mixed(),
   description: yup.string().required('Required *'),
+  subHeading: yup.string().required('Required *'),
   startDate: yup.date().required().nullable(),
   endDate: yup.date().required().nullable(),
-  separatedByDays: yup.boolean().required().nullable(),
+  // separatedByDays: yup.boolean().required().nullable(),
   location: locationSchema,
 })
 
@@ -42,6 +43,7 @@ const eventSecondStepValidation = yup.object().shape({
 const eventInitialValues = {
   name: '',
   photo: [],
+  subHeading: '',
   description: '',
   startDate: null,
   endDate: null,

@@ -102,6 +102,16 @@ function FirstStep() {
       </div>
       <div className='col-md-12'>
         <Input
+          name='subHeading'
+          value={formik.values.subHeading}
+          handleChange={formik.handleChange}
+          placeholder='Event Sub Heading'
+          label='Event Sub Heading'
+        />
+        <ErrorMessage className='error-text' component='p' name='subHeading' />
+      </div>
+      <div className='col-md-12'>
+        <Input
           name='description'
           value={formik.values.description}
           handleChange={formik.handleChange}
