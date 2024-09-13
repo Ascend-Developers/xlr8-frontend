@@ -1,12 +1,21 @@
 import * as yup from 'yup'
 
 const userValidationSchema = yup.object().shape({
+  firstName: yup.string().required('Required *'),
+  lastName: yup.string().required('Required *'),
   name: yup.string().required('Required *'),
-  gender: yup.string().required('Required *'),
-  email: yup.string().email().required('Required *'),
+  company: yup.string().required('Required *'),
+  jobTitle: yup.string().required('Required *'),
   phone: yup.number().required('Required *'),
-  company: yup.string(),
-  field: yup.string(),
+  email: yup.string().email().required('Required *'),
+  workLocation: yup.string().required('Required *'),
+  emergencyContactName: yup.string().required('Required *'),
+  emergencyContactRelationship: yup.string().required('Required *'),
+  emergencyContactPhoneNumber: yup.number().required('Required *'),
+  gender: yup.string().required('Required *'),
+  field: yup.string().required('Required *'),
+  // status: yup.string().required('Required *'),
+  type: yup.string().required('Required *'),
   password: yup.string().test({
     name: 'conditionalPassword',
     test(value) {
@@ -28,13 +37,22 @@ const userValidationSchema = yup.object().shape({
 })
 
 const userInitialValues = {
+  firstName: '',
+  lastName: '',
   name: '',
-  gender: '',
-  email: '',
-  phone: '',
   company: '',
+  jobTitle: '',
+  phone: '',
+  email: '',
+  workLocation: '',
+  emergencyContactName: '',
+  emergencyContactRelationship: '',
+  emergencyContactPhoneNumber: '',
+  gender: '',
   field: '',
+  status: '',
   password: '',
+  type: '',
 }
 
 const GENDERS = [
@@ -71,4 +89,21 @@ const USER_STATUS = [
     label: 'Reject',
   },
 ]
-export { userValidationSchema, userInitialValues, GENDERS, FIELDS, USER_STATUS }
+const USER_TYPE = [
+  {
+    value: 'admin',
+    label: 'Admin',
+  },
+  {
+    value: 'user',
+    label: 'User',
+  },
+]
+export {
+  userValidationSchema,
+  userInitialValues,
+  GENDERS,
+  FIELDS,
+  USER_STATUS,
+  USER_TYPE,
+}

@@ -8,6 +8,7 @@ import { getActionButtonProps } from 'utils/common'
 import CustomModal from 'components/common/modal/CustomModal'
 import { ErrorMessage, Formik } from 'formik'
 import {
+  USER_TYPE,
   FIELDS,
   GENDERS,
   USER_STATUS,
@@ -520,37 +521,48 @@ function UsersListing() {
                   <div className='col-md-6'>
                     <div className='field-wrapper'>
                       <Input
+                        name='firstName'
+                        handleChange={handleChange}
+                        placeholder='First Name'
+                        label='First Name*'
+                        value={values.firstName}
+                      />
+                      <ErrorMessage
+                        className='error-text'
+                        component='p'
+                        name='firstName'
+                      />
+                    </div>
+                  </div>
+                  <div className='col-md-6'>
+                    <div className='field-wrapper'>
+                      <Input
+                        name='lastName'
+                        handleChange={handleChange}
+                        placeholder='Last Name'
+                        label='Last Name*'
+                        value={values.lastName}
+                      />
+                      <ErrorMessage
+                        className='error-text'
+                        component='p'
+                        name='lastName'
+                      />
+                    </div>
+                  </div>
+                  <div className='col-md-6'>
+                    <div className='field-wrapper'>
+                      <Input
                         name='name'
                         handleChange={handleChange}
-                        placeholder='Full Name'
-                        label='Full Name*'
+                        placeholder='Preferred name for name tag'
+                        label='Preferred name for name tag*'
                         value={values.name}
                       />
                       <ErrorMessage
                         className='error-text'
                         component='p'
                         name='name'
-                      />
-                    </div>
-                  </div>
-                  <div className='col-md-6'>
-                    <div className='field-wrapper mt-3'>
-                      <label htmlFor='gender' className='input-label'>
-                        Gender *
-                      </label>
-                      <SelectComponent
-                        name='gender'
-                        options={GENDERS}
-                        selectedValue={values.gender}
-                        placeholder='Select'
-                        handleChange={(obj) => {
-                          setFieldValue('gender', obj.value)
-                        }}
-                      />
-                      <ErrorMessage
-                        className='error-text'
-                        component='p'
-                        name='gender'
                       />
                     </div>
                   </div>
@@ -590,6 +602,59 @@ function UsersListing() {
                     </div>
                   )}
                   <div className='col-md-6'>
+                    <div className='field-wrapper mt-3'>
+                      <label htmlFor='gender' className='input-label'>
+                        Gender *
+                      </label>
+                      <SelectComponent
+                        name='gender'
+                        options={GENDERS}
+                        selectedValue={values.gender}
+                        placeholder='Select'
+                        handleChange={(obj) => {
+                          setFieldValue('gender', obj.value)
+                        }}
+                      />
+                      <ErrorMessage
+                        className='error-text'
+                        component='p'
+                        name='gender'
+                      />
+                    </div>
+                  </div>
+                  <div className='col-md-6'>
+                    <div className='field-wrapper'>
+                      <Input
+                        name='company'
+                        handleChange={handleChange}
+                        placeholder='Company'
+                        label='Company (Optional)'
+                        value={values.company}
+                      />
+                      <ErrorMessage
+                        className='error-text'
+                        component='p'
+                        name='company'
+                      />
+                    </div>
+                  </div>
+                  <div className='col-md-6'>
+                    <div className='field-wrapper'>
+                      <Input
+                        name='jobTitle'
+                        handleChange={handleChange}
+                        placeholder='Job Title'
+                        label='Job Title *'
+                        value={values.jobTitle}
+                      />
+                      <ErrorMessage
+                        className='error-text'
+                        component='p'
+                        name='jobTitle'
+                      />
+                    </div>
+                  </div>
+                  <div className='col-md-6'>
                     <div className='field-wrapper'>
                       <Input
                         name='phone'
@@ -609,16 +674,65 @@ function UsersListing() {
                   <div className='col-md-6'>
                     <div className='field-wrapper'>
                       <Input
-                        name='company'
+                        name='workLocation'
                         handleChange={handleChange}
-                        placeholder='Company'
-                        label='Company (Optional)'
-                        value={values.company}
+                        placeholder='Work Location'
+                        label='Work Location *'
+                        value={values.workLocation}
                       />
                       <ErrorMessage
                         className='error-text'
                         component='p'
-                        name='comapny'
+                        name='workLocation'
+                      />
+                    </div>
+                  </div>
+                  <div className='col-md-6'>
+                    <div className='field-wrapper'>
+                      <Input
+                        name='emergencyContactName'
+                        handleChange={handleChange}
+                        placeholder='Emergency Contact Name'
+                        label='Emergency Contact Name *'
+                        value={values.emergencyContactName}
+                      />
+                      <ErrorMessage
+                        className='error-text'
+                        component='p'
+                        name='emergencyContactName'
+                      />
+                    </div>
+                  </div>
+                  <div className='col-md-6'>
+                    <div className='field-wrapper'>
+                      <Input
+                        name='emergencyContactPhoneNumber'
+                        handleChange={handleChange}
+                        placeholder='Emergency Contact Phone Number'
+                        label='Emergency Contact Phone Number *'
+                        value={values.emergencyContactPhoneNumber}
+                        type='tel'
+                      />
+                      <ErrorMessage
+                        className='error-text'
+                        component='p'
+                        name='emergencyContactPhoneNumber'
+                      />
+                    </div>
+                  </div>
+                  <div className='col-md-6'>
+                    <div className='field-wrapper'>
+                      <Input
+                        name='emergencyContactRelationship'
+                        handleChange={handleChange}
+                        placeholder='Emergency Contact Relationship'
+                        label='Emergency Contact Relationship *'
+                        value={values.emergencyContactRelationship}
+                      />
+                      <ErrorMessage
+                        className='error-text'
+                        component='p'
+                        name='emergencyContactRelationship'
                       />
                     </div>
                   </div>
@@ -640,6 +754,27 @@ function UsersListing() {
                         className='error-text'
                         component='p'
                         name='field'
+                      />
+                    </div>
+                  </div>
+                  <div className='col-md-6'>
+                    <div className='field-wrapper mt-3'>
+                      <label htmlFor='type' className='input-label'>
+                        User Type *
+                      </label>
+                      <SelectComponent
+                        name='type'
+                        options={USER_TYPE}
+                        selectedValue={values.type}
+                        placeholder='Select'
+                        handleChange={(obj) => {
+                          setFieldValue('type', obj.value)
+                        }}
+                      />
+                      <ErrorMessage
+                        className='error-text'
+                        component='p'
+                        name='type'
                       />
                     </div>
                   </div>
