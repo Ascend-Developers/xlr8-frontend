@@ -9,8 +9,6 @@ import CustomModal from 'components/common/modal/CustomModal'
 import { ErrorMessage, Formik } from 'formik'
 import {
   USER_TYPE,
-  FIELDS,
-  GENDERS,
   USER_STATUS,
   userInitialValues,
   userValidationSchema,
@@ -602,27 +600,6 @@ function UsersListing() {
                     </div>
                   )}
                   <div className='col-md-6'>
-                    <div className='field-wrapper mt-3'>
-                      <label htmlFor='gender' className='input-label'>
-                        Gender *
-                      </label>
-                      <SelectComponent
-                        name='gender'
-                        options={GENDERS}
-                        selectedValue={values.gender}
-                        placeholder='Select'
-                        handleChange={(obj) => {
-                          setFieldValue('gender', obj.value)
-                        }}
-                      />
-                      <ErrorMessage
-                        className='error-text'
-                        component='p'
-                        name='gender'
-                      />
-                    </div>
-                  </div>
-                  <div className='col-md-6'>
                     <div className='field-wrapper'>
                       <Input
                         name='company'
@@ -662,7 +639,6 @@ function UsersListing() {
                         placeholder='Phone'
                         label='Phone Number *'
                         value={values.phone}
-                        type='tel'
                       />
                       <ErrorMessage
                         className='error-text'
@@ -711,7 +687,6 @@ function UsersListing() {
                         placeholder='Emergency Contact Phone Number'
                         label='Emergency Contact Phone Number *'
                         value={values.emergencyContactPhoneNumber}
-                        type='tel'
                       />
                       <ErrorMessage
                         className='error-text'
@@ -737,23 +712,34 @@ function UsersListing() {
                     </div>
                   </div>
                   <div className='col-md-6'>
-                    <div className='field-wrapper mt-3'>
-                      <label htmlFor='gender' className='input-label'>
-                        Field *
-                      </label>
-                      <SelectComponent
-                        name='field'
-                        options={FIELDS}
-                        selectedValue={values.field}
-                        placeholder='Select'
-                        handleChange={(obj) => {
-                          setFieldValue('field', obj.value)
-                        }}
+                    <div className='field-wrapper'>
+                      <Input
+                        name='managerName'
+                        handleChange={handleChange}
+                        placeholder='Your Manager Name'
+                        label='Your Manager Name *'
+                        value={values.managerName}
                       />
                       <ErrorMessage
                         className='error-text'
                         component='p'
-                        name='field'
+                        name='managerName'
+                      />
+                    </div>
+                  </div>
+                  <div className='col-md-6'>
+                    <div className='field-wrapper'>
+                      <Input
+                        name='managerPhoneNumber'
+                        handleChange={handleChange}
+                        placeholder='Your Manager Phone Number'
+                        label='Your Manager Phone Number *'
+                        value={values.managerPhoneNumber}
+                      />
+                      <ErrorMessage
+                        className='error-text'
+                        component='p'
+                        name='managerPhoneNumber'
                       />
                     </div>
                   </div>
