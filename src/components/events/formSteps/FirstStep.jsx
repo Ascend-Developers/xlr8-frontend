@@ -173,8 +173,8 @@ function FirstStep() {
       </div>
       <div className='col-md-12'>
         <MapViewWrapper
-          value={formik.values?.location?.map_url || ''}
-          name='location.map_url'
+          value={formik.values?.location?.mapUrl || ''}
+          name='location.mapUrl'
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
           label='Location'
@@ -184,7 +184,7 @@ function FirstStep() {
         <ErrorMessage
           className='error-text'
           component='p'
-          name='location.map_url'
+          name='location.mapUrl'
         />
       </div>
 

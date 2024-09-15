@@ -120,9 +120,9 @@ function MapView({ ...rest }) {
   ])
 
   useEffect(() => {
-    if (map && rest.formik.values.location.map_url) {
+    if (map && rest.formik.values.location.mapUrl) {
       const { lat, lng } = extractLatLngFromUrl(
-        rest.formik.values.location.map_url
+        rest.formik.values.location.mapUrl
       )
 
       if (!isNaN(lat) && !isNaN(lng)) {
@@ -135,7 +135,7 @@ function MapView({ ...rest }) {
         marker.setVisible(false)
       }
     }
-  }, [map, marker, rest.formik.values.location.map_url])
+  }, [map, marker, rest.formik.values.location.mapUrl])
 
   return (
     <div>

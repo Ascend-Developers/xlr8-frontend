@@ -3,7 +3,7 @@ import * as yup from 'yup'
 const locationSchema = yup.object().shape({
   longitude: yup.string(),
   latitude: yup.string(),
-  map_url: yup.string().required('Location is required'),
+  mapUrl: yup.string().required('Location is required'),
   address: yup.string(),
 })
 
@@ -49,7 +49,7 @@ const eventInitialValues = {
   endDate: null,
   separatedByDays: false,
   location: {
-    map_url: '',
+    mapUrl: '',
     longitude: '',
     latitude: '',
     address: '',

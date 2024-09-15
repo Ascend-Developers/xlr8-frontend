@@ -23,7 +23,7 @@ function EventCreate() {
   const navigate = useNavigate()
   const handleCreateEvent = async (values) => {
     console.log('isme aya', id)
-    const mapUrl = values.location.map_url
+    const mapUrl = values.location.mapUrl
     let latitude = ''
     let longitude = ''
     let match = ''
