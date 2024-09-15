@@ -22,10 +22,24 @@ function EventCreate() {
   const [initialValues, setInitialValues] = useState(eventInitialValues)
   const navigate = useNavigate()
   const handleCreateEvent = async (values) => {
+    console.log('isme aya', id)
     const mapUrl = values.location.map_url
     let latitude = ''
     let longitude = ''
-    const match = mapUrl.match(/@(-?\d+\.\d+),(-?\d+\.\d+)/)
+    let match = ''
+
+    if (mapUrl.includes('q=')) {
+      // Match coordinates after 'q=' in the URL
+      match = mapUrl.match(/q=([-+]?\d*\.?\d+),([-+]?\d*\.?\d+)/)
+    } else if (mapUrl.includes('/@')) {
+      // Match coordinates after '@' in the URL
+      match = mapUrl.match(/@(-?\d+\.\d+),(-?\d+\.\d+)/)
+    }
+    // if (id) {
+    //   match = mapUrl.match(/q=([-+]?\d*\.?\d+),([-+]?\d*\.?\d+)/)
+    // } else {
+    //   match = mapUrl.match(/@(-?\d+\.\d+),(-?\d+\.\d+)/)
+    // }
 
     if (match) {
       latitude = match[1]
@@ -63,7 +77,8 @@ function EventCreate() {
       const { Event } = result
       setInitialValues({
         ...Event,
-        gallery: Event.gallery?.map((item) => item.vidUrl) || Event.gallery,
+        gallery: Event.gallery?.map((item) => item.imageUrl) || Event.gallery,
+        // gallery: Event.gallery?.map((item) => item.vidUrl) || Event.gallery,
       })
     }
   }
