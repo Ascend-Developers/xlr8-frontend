@@ -27,10 +27,11 @@ function MapView({ ...rest }) {
         rest.formik.setFieldValue(rest.name, locationLink)
       } else {
         // Handle invalid values
-        // eslint-disable-next-line no-lonely-if
-        if (marker) {
-          marker.setVisible(false)
-        }
+        // if (marker) {
+        //   marker.setVisible(false)
+        // } else {
+        //   console.log('adsas')
+        // }
       }
     }
   }
@@ -60,6 +61,22 @@ function MapView({ ...rest }) {
     } else {
       console.error('Geolocation is not supported by your browser.')
     }
+  }
+  const extractLatLngFromUrl = (url) => {
+    try {
+      if (url.includes('q=')) {
+        const params = new URLSearchParams(new URL(url).search)
+        const [lat, lng] = params.get('q').split(',').map(Number)
+        return { lat, lng }
+      }
+      // No need for else after return
+      const regex = /@([-+]?\d*\.?\d+),([-+]?\d*\.?\d+)/
+      const match = url.match(regex)
+      return { lat: parseFloat(match[1]), lng: parseFloat(match[2]) }
+    } catch (error) {
+      console.error('Error parsing map URL:', error)
+    }
+    return { lat: null, lng: null }
   }
 
   useEffect(() => {
@@ -92,7 +109,6 @@ function MapView({ ...rest }) {
 
     initMap() // Initialize the map with the initial values
 
-    // Cleanup function
     return () => {
       if (map) {
         window.google.maps.event.clearInstanceListeners(map)
@@ -101,30 +117,22 @@ function MapView({ ...rest }) {
   }, [
     rest.formik.values.location.latitude,
     rest.formik.values.location.longitude,
-  ]) // Add dependencies for the useEffect hook
+  ])
 
   useEffect(() => {
     if (map && rest.formik.values.location.map_url) {
-      try {
-        const url = new URL(rest.formik.values.location.map_url)
-        const params = new URLSearchParams(url.search)
-        const lat = parseFloat(params.get('q').split(',')[0])
-        const lng = parseFloat(params.get('q').split(',')[1])
+      const { lat, lng } = extractLatLngFromUrl(
+        rest.formik.values.location.map_url
+      )
 
-        if (!isNaN(lat) && !isNaN(lng)) {
-          map.setCenter({ lat, lng })
-          if (marker) {
-            marker.setPosition({ lat, lng })
-            marker.setVisible(true)
-          }
-        } else if (marker) {
-          marker.setVisible(false)
-        }
-      } catch (error) {
-        console.error('Error parsing location link:', error)
+      if (!isNaN(lat) && !isNaN(lng)) {
+        map.setCenter({ lat, lng })
         if (marker) {
-          marker.setVisible(false)
+          marker.setPosition({ lat, lng })
+          marker.setVisible(true)
         }
+      } else if (marker) {
+        marker.setVisible(false)
       }
     }
   }, [map, marker, rest.formik.values.location.map_url])
