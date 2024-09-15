@@ -48,7 +48,7 @@ function EventCreate() {
     const payload = {
       ...values,
       location: { ...values.location, latitude, longitude },
-      gallery: values.gallery.map((item) => ({ imageUrl: item, vidUrl: '' })),
+      gallery: values.gallery?.map((item) => ({ imageUrl: item, vidUrl: '' })),
     }
     let result
     if (id) {

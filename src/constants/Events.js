@@ -37,7 +37,7 @@ const eventSecondStepValidation = yup.object().shape({
     .array()
     .of(speakerSchema)
     .min(1, 'Please add at least one speaker'),
-  gallery: yup.mixed().required('Required *'),
+  // gallery: yup.mixed().required('Required *'),
 })
 
 const eventInitialValues = {
