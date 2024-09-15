@@ -25,7 +25,7 @@ function EventCreate() {
     const mapUrl = values.location.map_url
     let latitude = ''
     let longitude = ''
-    const match = mapUrl.match(/q=([-+]?\d*\.?\d+),([-+]?\d*\.?\d+)/)
+    const match = mapUrl.match(/@(-?\d+\.\d+),(-?\d+\.\d+)/)
 
     if (match) {
       latitude = match[1]
@@ -34,7 +34,7 @@ function EventCreate() {
     const payload = {
       ...values,
       location: { ...values.location, latitude, longitude },
-      gallery: values.gallery.map((item) => ({ imageUrl: '', vidUrl: item })),
+      gallery: values.gallery.map((item) => ({ imageUrl: item, vidUrl: '' })),
     }
     let result
     if (id) {

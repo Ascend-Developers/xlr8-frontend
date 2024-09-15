@@ -88,7 +88,7 @@ function SecondStep({ setCurrentStep, id }) {
   )
   const { getRootProps, getInputProps } = useDropzone({
     onDrop,
-    accept: 'video/*, image/svg+xml, image/png, image/jpeg, image/gif',
+    accept: 'image/svg+xml, image/png, image/jpeg, image/gif, video/*',
   })
   return (
     <div className='row'>
