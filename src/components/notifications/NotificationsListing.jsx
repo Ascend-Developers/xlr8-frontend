@@ -10,9 +10,9 @@ import { toast } from 'react-toastify'
 import CustomToast from 'components/common/custom-toast/CustomToast'
 import {
   createNotification,
-  deleteNotificatin,
+  deleteNotification,
   getNotifications,
-  updateNotificatio,
+  updateNotification,
 } from 'containers/notifications/Api'
 import ConfirmationModal from './ConfirmationModal'
 import NotificationModal from './NotificationModal'
@@ -78,7 +78,8 @@ function NotificationsListing() {
   }
 
   const handleCreateNotification = async (values) => {
-    const result = await createNotification(values)
+    const updatedValues = { ...values, status: 'pending' }
+    const result = await createNotification(updatedValues)
     if (result?.status === 200) {
       toast(
         <CustomToast
@@ -98,8 +99,11 @@ function NotificationsListing() {
     }
   }
 
-  const handleUpdateNotification = async (values) => {
-    const result = await updateNotificatio(values)
+  const handleUpdateNotification = async (payload) => {
+    /* eslint no-underscore-dangle: 0 */
+    const id = payload._id
+    const updatedValues = { ...payload, status: 'pending' }
+    const result = await updateNotification(updatedValues, id)
     if (result?.status === 200) {
       toast(
         <CustomToast
@@ -129,7 +133,7 @@ function NotificationsListing() {
   }
   const handleDeleteNotification = async () => {
     // eslint-disable-next-line no-underscore-dangle
-    const result = await deleteNotificatin(selectedNotification._id)
+    const result = await deleteNotification(selectedNotification._id)
     if (result?.status === 200) {
       toast(
         <CustomToast
@@ -206,6 +210,26 @@ function NotificationsListing() {
                       </p>
                     </div>
                   </th>
+                  <th scope='col'>
+                    <div className='header-text-otr'>
+                      <p
+                        className='table-name heading-xsb'
+                        aria-label='User Name Column'
+                      >
+                        Scheduled Date/Time
+                      </p>
+                    </div>
+                  </th>
+                  <th scope='col'>
+                    <div className='header-text-otr'>
+                      <p
+                        className='table-name heading-xsb'
+                        aria-label='User Name Column'
+                      >
+                        Status
+                      </p>
+                    </div>
+                  </th>
 
                   <th scope='col' className='action-column'>
                     <div className='header-text-otr'>
@@ -235,7 +259,7 @@ function NotificationsListing() {
                     <td>
                       <div className='table-text-otr'>
                         <p className='table-text-black' title={item.title}>
-                          {item.title}
+                          {item.title ?? 'N/A'}
                         </p>
                       </div>
                     </td>
@@ -243,14 +267,30 @@ function NotificationsListing() {
                     <td>
                       <div className='table-text-otr'>
                         <p className='table-text-black' title={item.body}>
-                          {item.body}
+                          {item.body ?? 'N/A'}
+                        </p>
+                      </div>
+                    </td>
+
+                    <td>
+                      <div className='table-text-otr'>
+                        <p className='table-text-black' title={item.body}>
+                          {item.scheduledDateTime ?? 'N/A'}
+                        </p>
+                      </div>
+                    </td>
+
+                    <td>
+                      <div className='table-text-otr'>
+                        <p className='table-text-black' title={item.body}>
+                          {item.status ?? 'N/A'}
                         </p>
                       </div>
                     </td>
 
                     <td className='action-column'>
                       <div className='table-icon-otr'>
-                        <button
+                        {/* <button
                           type='button'
                           className='action-btn-sm record-btn'
                           onClick={() => {
@@ -259,7 +299,7 @@ function NotificationsListing() {
                           }}
                         >
                           Trigger
-                        </button>
+                        </button> */}
                         <div
                           className='icon-otr'
                           role='button'
