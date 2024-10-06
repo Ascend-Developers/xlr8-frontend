@@ -131,7 +131,7 @@ function SpeakerModal({ handleCloseModal, initialValues, formik, index }) {
                 name='description'
                 handleChange={speakerFormik.handleChange}
                 placeholder='Descirption'
-                label='description*'
+                label='Description*'
                 value={speakerFormik.values.description}
               />
               <p className='error-text'>
