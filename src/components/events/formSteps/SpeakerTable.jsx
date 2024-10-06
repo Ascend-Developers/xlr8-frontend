@@ -53,7 +53,7 @@ function SpeakerTable({
                   className='table-name heading-xsb'
                   aria-label='User Company Column'
                 >
-                  Topic
+                  Description
                 </p>
               </div>
             </th>
@@ -112,9 +112,9 @@ function SpeakerTable({
                 <div className='table-text-otr'>
                   <p
                     className='table-text-black'
-                    title={item.topic?.toString()}
+                    title={item.description?.toString()}
                   >
-                    {item?.topic || '-'}
+                    {item?.description || '-'}
                   </p>
                 </div>
               </td>

@@ -28,7 +28,7 @@ const speakerSchema = yup.object().shape({
   name: yup.string().required('Name is required'),
   designation: yup.string().required('Designation is required'),
   image: yup.mixed().required('Photo is required'),
-  topic: yup.string().required('Topic is required'),
+  description: yup.string().required('Topic is required'),
 })
 
 const eventSecondStepValidation = yup.object().shape({
@@ -68,7 +68,7 @@ const speaker = {
   name: '',
   designation: '',
   image: '',
-  topic: '',
+  description: '',
 }
 export {
   eventFirstStepValidation,

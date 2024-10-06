@@ -128,13 +128,15 @@ function SpeakerModal({ handleCloseModal, initialValues, formik, index }) {
           <div className='col-md-6'>
             <div className='field-wrapper'>
               <Input
-                name='topic'
+                name='description'
                 handleChange={speakerFormik.handleChange}
                 placeholder='Descirption'
-                label='Topic*'
-                value={speakerFormik.values.topic}
+                label='description*'
+                value={speakerFormik.values.description}
               />
-              <p className='error-text'>{speakerFormik?.errors?.topic || ''}</p>
+              <p className='error-text'>
+                {speakerFormik?.errors?.description || ''}
+              </p>
             </div>
           </div>
 
@@ -164,7 +166,7 @@ const speakerShape = PropTypes.shape({
   name: PropTypes.string,
   designation: PropTypes.instanceOf(Date),
   photo: PropTypes.Array,
-  topic: PropTypes.string,
+  description: PropTypes.string,
 })
 SpeakerModal.propTypes = {
   handleCloseModal: PropTypes.func.isRequired,
