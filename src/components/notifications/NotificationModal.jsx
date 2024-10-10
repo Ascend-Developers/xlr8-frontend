@@ -82,9 +82,11 @@ function NotificationModal({
                       name='dateTime'
                       showTimeSelect
                       label='Date From'
-                      selected={values?.dateTime ? values.dateTime : null}
+                      selected={
+                        values.dateTime ? new Date(values.dateTime) : ''
+                      }
                       onDateChange={(date) => setFieldValue('dateTime', date)}
-                      dateFormat='MM dd, yyyy hh:mm'
+                      dateFormat='MM dd, yyyy hh:mm:ss a'
                     />
 
                     <ErrorMessage
