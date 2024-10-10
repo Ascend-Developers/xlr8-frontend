@@ -5,6 +5,7 @@ import React, { useEffect, useState } from 'react'
 // import { useNavigate } from 'react-router-dom'
 import { PencilSimple, Trash } from 'phosphor-react'
 import { getActionButtonProps } from 'utils/common'
+import moment from 'moment'
 
 import { toast } from 'react-toastify'
 import CustomToast from 'components/common/custom-toast/CustomToast'
@@ -274,8 +275,12 @@ function NotificationsListing() {
 
                     <td>
                       <div className='table-text-otr'>
-                        <p className='table-text-black' title={item.body}>
-                          {item.scheduledDateTime ?? 'N/A'}
+                        <p className='table-text-black' title={item.dateTime}>
+                          {item.dateTime
+                            ? moment(item.dateTime).format(
+                                'MMMM Do YYYY, h:mm:ss a'
+                              )
+                            : 'N/A'}
                         </p>
                       </div>
                     </td>
@@ -300,21 +305,23 @@ function NotificationsListing() {
                         >
                           Trigger
                         </button> */}
-                        <div
-                          className='icon-otr'
-                          role='button'
-                          tabIndex={0}
-                          aria-label='Edit User'
-                        >
-                          <PencilSimple
-                            className='primary-color'
-                            size={18}
-                            onClick={() => {
-                              setSelectedNotification(item)
-                              handleOpenModal()
-                            }}
-                          />
-                        </div>
+                        {moment().isAfter(moment(item.dateTime)) && (
+                          <div
+                            className='icon-otr'
+                            role='button'
+                            tabIndex={0}
+                            aria-label='Edit User'
+                          >
+                            <PencilSimple
+                              className='primary-color'
+                              size={18}
+                              onClick={() => {
+                                setSelectedNotification(item)
+                                handleOpenModal()
+                              }}
+                            />
+                          </div>
+                        )}
                         <div
                           className='icon-otr'
                           role='button'
