@@ -101,7 +101,7 @@ function EventsListing() {
   const downloadExcel = async (event) => {
     try {
       const response = await get(
-        `https://dev-api-paj.ascend.com.sa/api/event/export/${event._id}`,
+        `${process.env.REACT_APP_API_URL}event/export/${event._id}`,
         true,
         null,
         null,

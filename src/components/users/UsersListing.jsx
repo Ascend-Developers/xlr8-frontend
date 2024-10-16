@@ -7,6 +7,10 @@ import { PencilSimple, Trash } from 'phosphor-react'
 import { getActionButtonProps } from 'utils/common'
 import CustomModal from 'components/common/modal/CustomModal'
 import { Formik } from 'formik'
+// import Form from 'react-bootstrap/Form'
+import Button from 'react-bootstrap/Button'
+import { post } from 'services/network'
+import Modal from 'react-bootstrap/Modal'
 import {
   USER_STATUS,
   userInitialValues,
@@ -36,8 +40,11 @@ function UsersListing() {
   const [meta, setMeta] = React.useState(initialMetaForTable)
   const [isUserModalVisible, setUserModalVisible] = React.useState(false)
   const [refresh, setRefresh] = React.useState(false)
+  const [postContent, setPostContent] = React.useState(false)
   const [selectedUser, setSelectedUser] = useState()
   const [isUserDeleteModalVisible, setDeleteUserModalVisible] = useState(false)
+  const [isPostContentModalVisible, setIsPostContentModalVisible] =
+    useState(false)
   const inputRef = useRef(null)
 
   const handleRefresh = () => {
@@ -210,6 +217,36 @@ function UsersListing() {
   }, [])
   const { getInputProps } = useDropzone({ onDrop })
 
+  const postContentModal = (value) => {
+    setIsPostContentModalVisible(value)
+  }
+
+  const submitPostContent = async () => {
+    const data = {
+      postContent,
+    }
+    try {
+      const response = await post(
+        `${process.env.REACT_APP_API_URL}user/postContent`,
+        data,
+        true
+      )
+
+      console.log(response)
+      setIsPostContentModalVisible(false)
+      toast(
+        <CustomToast variant={alertTypes.SUCCESS} message={response.message} />
+      )
+      return response
+    } catch (error) {
+      console.error(error)
+      toast(
+        <CustomToast variant={alertTypes.DANGER} message='error creating!' />
+      )
+      return false
+    }
+  }
+
   useEffect(() => {
     fetchUsers()
   }, [refresh])
@@ -231,6 +268,11 @@ function UsersListing() {
           currentPage={meta.page}
           onPageChange={handlePageChange}
           actionButtons={[
+            {
+              label: 'Post Content',
+              handleClick: postContentModal,
+              classes: 'secondary-btn record-btn',
+            },
             {
               label: 'Import Users',
               handleClick: handleImportUsers,
@@ -495,6 +537,40 @@ function UsersListing() {
           handleCloseModal={handleCloseUserDeleteModal}
         />
       )}
+
+      {/* {isPostContentModalVisible && ( */}
+      <Modal
+        size='sm'
+        show={isPostContentModalVisible}
+        onHide={() => setIsPostContentModalVisible(false)}
+      >
+        <Modal.Header closeButton>
+          <Modal.Title>Post Content</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          {' '}
+          <Form.Control
+            type='text'
+            placeholder='Post Content'
+            onInput={(e) => setPostContent(e.target.value)}
+          />
+        </Modal.Body>
+        <Modal.Footer>
+          <Button
+            className='border-0'
+            // variant='secondary'
+            style={{ backgroundColor: '#9B4A2E' }}
+            onClick={() => submitPostContent()}
+          >
+            Submit
+          </Button>
+          {/* <Button variant='primary' onClick={handleClose}>
+              Save Changes
+            </Button> */}
+        </Modal.Footer>
+      </Modal>
+      {/* )} */}
+
       {isUserModalVisible && (
         <CustomModal
           size='md'
