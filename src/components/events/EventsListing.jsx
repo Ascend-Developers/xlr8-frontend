@@ -8,11 +8,13 @@ import {
 import { deleteEvent, getEvents } from 'containers/events/Api'
 import React, { useEffect, useState } from 'react'
 import { getActionButtonProps } from 'utils/common'
-import { PencilSimple, Trash } from 'phosphor-react'
+import { DownloadSimple, PencilSimple, Trash } from 'phosphor-react'
 import moment from 'moment'
 import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import CustomToast from 'components/common/custom-toast/CustomToast'
+// import { EVENT_DOWNLOAD } from 'constants/EndPoints'
+import { get } from 'services/network'
 import EventDelete from './EventDeleteModal'
 
 let timeout
@@ -93,6 +95,32 @@ function EventsListing() {
           message={result?.response?.data?.error}
         />
       )
+    }
+  }
+
+  const downloadExcel = async (event) => {
+    try {
+      const response = await get(
+        `https://dev-api-paj.ascend.com.sa/api/event/export/${event._id}`,
+        true,
+        null,
+        null,
+        {
+          responseType: 'blob',
+          headers: {
+            Accept: 'text/csv',
+          },
+        }
+      )
+
+      const link = document.createElement('a')
+      link.href = URL.createObjectURL(response)
+      link.download = event.name || 'Export'
+      link.click()
+      return true
+    } catch (error) {
+      console.error(error)
+      return error
     }
   }
 
@@ -253,6 +281,15 @@ function EventsListing() {
                             onClick={() => {
                               setSelectedEvent(item)
                               handleOpenDeleteEventModal()
+                            }}
+                          />
+                        </div>
+                        <div className='icon-otr' aria-label='Delete User'>
+                          <DownloadSimple
+                            size={18}
+                            color='#288c21'
+                            onClick={() => {
+                              downloadExcel(item)
                             }}
                           />
                         </div>

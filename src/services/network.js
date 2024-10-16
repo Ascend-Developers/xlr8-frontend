@@ -73,10 +73,11 @@ export const get = (
   url,
   tokenizeInstance = false,
   accessToken = null,
-  fullPath = null
+  fullPath = null,
+  config = {}
 ) =>
   getAxios(tokenizeInstance, accessToken, fullPath)
-    .get(fullPath || url)
+    .get(fullPath || url, config)
     .then((res) => res.data)
 
 export const post = (url, data, tokenizeInstance = false, fullPath = null) =>
